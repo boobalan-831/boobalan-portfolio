@@ -7,8 +7,8 @@ interface UseScrollRevealOptions {
   triggerOnce?: boolean;
 }
 
-export const useScrollReveal = (options: UseScrollRevealOptions = {}) => {
-  const elementRef = useRef<HTMLElement>(null);
+export const useScrollReveal = <T extends HTMLElement = HTMLDivElement>(options: UseScrollRevealOptions = {}) => {
+  const elementRef = useRef<T>(null);
   const { threshold = 0.1, rootMargin = '0px 0px -100px 0px', triggerOnce = true } = options;
 
   useEffect(() => {

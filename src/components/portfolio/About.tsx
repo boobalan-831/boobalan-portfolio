@@ -3,10 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const About = () => {
-  const aboutRef = useScrollReveal();
-  const cardRef1 = useScrollReveal({ threshold: 0.2 });
-  const cardRef2 = useScrollReveal({ threshold: 0.2 });
-  const statsRef = useScrollReveal({ threshold: 0.3 });
+  const aboutRef = useScrollReveal<HTMLElement>();
+  const cardRef1 = useScrollReveal<HTMLDivElement>({ threshold: 0.2 });
+  const cardRef2 = useScrollReveal<HTMLDivElement>({ threshold: 0.2 });
+  const statsRef = useScrollReveal<HTMLDivElement>({ threshold: 0.3 });
 
   return (
     <section ref={aboutRef} id="about" className="py-20 relative">
