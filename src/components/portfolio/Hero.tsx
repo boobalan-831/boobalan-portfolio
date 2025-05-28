@@ -36,10 +36,14 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="animate-fade-in">
-          {/* Profile Picture Placeholder */}
+          {/* Profile Picture */}
           <div className="w-48 h-48 mx-auto mb-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 p-1 shadow-2xl shadow-blue-500/25">
-            <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center">
-              <span className="text-6xl font-bold text-blue-400">BD</span>
+            <div className="w-full h-full rounded-full overflow-hidden">
+              <img 
+                src="https://postimage.me/images/2025/05/28/4333829_applicantPhotoFile.jpg" 
+                alt="Boobalan D"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
 
