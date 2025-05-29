@@ -467,3 +467,94 @@ html {
 .stagger-6 { animation-delay: 1.1s; }
 .stagger-7 { animation-delay: 1.3s; }
 .stagger-8 { animation-delay: 1.5s; }
+
+/* Enhanced About Section Styles */
+.about-heading {
+  background: linear-gradient(90deg, #4fb3ff, #0ea5e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+}
+
+.about-underline {
+  width: 0;
+  transition: width 0.8s ease-out 0.3s;
+}
+
+.reveal.active .about-underline {
+  width: 6rem;
+}
+
+.counter-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #4fb3ff, #0ea5e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1;
+}
+
+.counter-number:first-child {
+  animation: glowPulse 2s ease-in-out 1 1s;
+}
+
+@keyframes glowPulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 0 rgba(79,179,255,0));
+  }
+  50% { 
+    filter: drop-shadow(0 0 8px rgba(79,179,255,0.6));
+  }
+}
+
+.bio-card {
+  transition: all 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.bio-card.reveal {
+  transform: rotateY(90deg);
+  opacity: 0;
+}
+
+.bio-card.reveal.active {
+  transform: rotateY(0deg);
+  opacity: 1;
+}
+
+.card-lift {
+  transition: all 0.3s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(79, 179, 255, 0.15), 0 0 20px rgba(79, 179, 255, 0.1);
+  border-color: rgba(79, 179, 255, 0.3);
+}
+
+/* Staggered animations for cards */
+.reveal:nth-child(1) { animation-delay: 0.1s; }
+.reveal:nth-child(2) { animation-delay: 0.3s; }
+.reveal:nth-child(3) { animation-delay: 0.5s; }
+
+/* Enhanced card hover glow */
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(79, 179, 255, 0.2);
+  border-color: rgba(79, 179, 255, 0.4);
+}
+
+/* Tooltip keyword styling */
+.cursor-help {
+  transition: all 0.2s ease;
+}
+
+.cursor-help:hover {
+  text-shadow: 0 0 8px rgba(79, 179, 255, 0.4);
+}
