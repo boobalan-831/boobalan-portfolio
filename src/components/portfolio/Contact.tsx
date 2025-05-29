@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, User, Linkedin } from "lucide-react";
+import { Mail, User, Linkedin, Download } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -45,6 +45,10 @@ const Contact = () => {
       href: "https://linkedin.com/in/boobalan831"
     }
   ];
+
+  const handleResumeDownload = () => {
+    window.open("https://drive.google.com/file/d/1ZqqYr4PrtxnsNGxfgKV2Xx6HV6z9oVyF/view?usp=sharing", "_blank");
+  };
 
   return (
     <section id="contact" className="py-20 bg-slate-800/30">
@@ -94,9 +98,10 @@ const Contact = () => {
 
             <div className="pt-6">
               <Button 
-                className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-8 py-3 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
-                onClick={() => window.open("#", "_blank")}
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-8 py-3 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                onClick={handleResumeDownload}
               >
+                <Download className="w-4 h-4" />
                 Download Resume
               </Button>
             </div>
