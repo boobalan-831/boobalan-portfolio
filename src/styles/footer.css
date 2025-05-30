@@ -1,0 +1,44 @@
+
+/* Footer Styles */
+.footer {
+  background: #000a14;
+  padding: 2rem 1rem;
+  position: relative;
+}
+
+.footer .logo { 
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #4fb3ff;
+  text-shadow: 0 0 10px rgba(79, 179, 255, 0.3);
+}
+
+.footer .quick-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.footer .quick-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.footer .quick-link:hover::after {
+  width: 100%;
+}
+
+.footer .social-icon {
+  transition: all 0.3s ease;
+}
+
+.footer .social-icon:hover {
+  box-shadow: 0 0 12px rgba(79, 179, 255, 0.5);
+  transform: scale(1.1);
+}

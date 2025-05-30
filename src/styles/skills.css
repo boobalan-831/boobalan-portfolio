@@ -1,0 +1,65 @@
+
+/* Enhanced Skill Card Interactions */
+.skill-card {
+  transition: all 0.3s ease;
+}
+
+.skill-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(79, 179, 255, 0.15);
+  border-color: var(--category-accent, rgba(79, 179, 255, 0.3));
+}
+
+.skill-card:hover .skill-icon {
+  animation: iconPulse 0.6s ease-in-out;
+}
+
+.skill-card:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* Staggered animations for cards */
+.reveal:nth-child(1) { animation-delay: 0.1s; }
+.reveal:nth-child(2) { animation-delay: 0.3s; }
+.reveal:nth-child(3) { animation-delay: 0.5s; }
+
+/* Enhanced card hover glow */
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(79, 179, 255, 0.2);
+  border-color: rgba(79, 179, 255, 0.4);
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 640px) {
+  .skill-card {
+    margin-bottom: 1rem;
+  }
+  
+  .nav-drawer-item {
+    font-size: 1.125rem;
+    padding: 1rem 0;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1024px) {
+  .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .skill-card,
+  .skill-item,
+  .hamburger-line,
+  .nav-drawer-item {
+    animation-duration: 0.1s !important;
+    transition-duration: 0.1s !important;
+  }
+  
+  .skill-card:hover .skill-icon {
+    animation: none;
+  }
+}

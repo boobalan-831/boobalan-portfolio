@@ -1,0 +1,278 @@
+
+/* Preloader Styles */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--darker-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.preloader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preloader-logo {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--glow-color);
+  text-shadow: var(--text-glow);
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+}
+
+.preloader-logo::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--glow-color);
+  border-radius: 50%;
+  animation: rotate 1.5s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* New Enhanced Preloader Styles */
+.preloader-new {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.preloader-new.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+/* Loading Bars */
+.loading-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.bar-container {
+  width: 60vw;
+  max-width: 300px;
+  height: 8px;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #0ea5e9, #3b82f6);
+  border-radius: 4px;
+  position: relative;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+}
+
+.loading-bar.animate-fill {
+  animation: fillBar 0.8s ease-out forwards;
+}
+
+@keyframes fillBar {
+  from {
+    width: 0;
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+  }
+  to {
+    width: 100%;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+  }
+}
+
+/* Name Text */
+.name-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #4fb3ff;
+  display: flex;
+  gap: 0.1em;
+  transition: all 0.4s ease;
+}
+
+.name-text.show-complete {
+  text-shadow: 0 0 20px rgba(79, 179, 255, 0.8);
+  transform: scale(1.05);
+}
+
+.letter {
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.letter.glow {
+  text-shadow: 0 0 8px rgba(79, 179, 255, 0.6);
+  animation: letterGlow 0.4s ease-out;
+}
+
+.letter.space {
+  width: 0.3em;
+}
+
+@keyframes letterGlow {
+  0% {
+    text-shadow: 0 0 4px rgba(79, 179, 255, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 12px rgba(79, 179, 255, 0.8);
+    transform: scale(1.1);
+  }
+  100% {
+    text-shadow: 0 0 8px rgba(79, 179, 255, 0.6);
+    transform: scale(1);
+  }
+}
+
+/* Particle Animation */
+@keyframes particle-drift {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.2;
+  }
+  90% {
+    opacity: 0.2;
+  }
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.animate-particle-drift {
+  animation: particle-drift linear infinite;
+}
+
+/* Advanced Preloader Enhancements */
+.three-scene canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+}
+
+.name-letter {
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+.name-letter:hover {
+  transform: scale(1.1) rotateY(10deg);
+  text-shadow: 0 0 15px rgba(79, 179, 255, 0.8);
+}
+
+.particle-canvas {
+  mix-blend-mode: screen;
+}
+
+.fallback-cube {
+  animation: rotateCube 2s linear infinite;
+  border-radius: 8px;
+}
+
+@keyframes rotateCube {
+  from { transform: rotate(0deg) rotateY(0deg); }
+  to { transform: rotate(360deg) rotateY(360deg); }
+}
+
+/* WebGL Shader-like effects using CSS */
+.shader-ripple {
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(79, 179, 255, 0.3) 0%, 
+    transparent 50%);
+  animation: rippleEffect 2s ease-in-out infinite;
+}
+
+@keyframes rippleEffect {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Performance optimizations */
+.three-scene,
+.particle-canvas {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bar-container {
+    width: 80vw;
+  }
+  
+  .preloader-content {
+    gap: 2rem;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-particle-drift {
+    animation: none;
+    opacity: 0;
+  }
+  
+  .loading-bar.animate-fill {
+    animation-duration: 0.1s;
+  }
+  
+  .letter.glow {
+    animation-duration: 0.1s;
+  }
+  
+  .three-scene,
+  .particle-canvas {
+    animation: none;
+    transform: none;
+  }
+  
+  .name-letter {
+    animation-duration: 0.1s;
+  }
+  
+  .shader-ripple {
+    animation: none;
+  }
+}
