@@ -721,3 +721,73 @@ html {
     animation-duration: 0.1s;
   }
 }
+
+/* Advanced Preloader Enhancements */
+.three-scene canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+}
+
+.name-letter {
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+.name-letter:hover {
+  transform: scale(1.1) rotateY(10deg);
+  text-shadow: 0 0 15px rgba(79, 179, 255, 0.8);
+}
+
+.particle-canvas {
+  mix-blend-mode: screen;
+}
+
+.fallback-cube {
+  animation: rotateCube 2s linear infinite;
+  border-radius: 8px;
+}
+
+@keyframes rotateCube {
+  from { transform: rotate(0deg) rotateY(0deg); }
+  to { transform: rotate(360deg) rotateY(360deg); }
+}
+
+/* WebGL Shader-like effects using CSS */
+.shader-ripple {
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(79, 179, 255, 0.3) 0%, 
+    transparent 50%);
+  animation: rippleEffect 2s ease-in-out infinite;
+}
+
+@keyframes rippleEffect {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Performance optimizations */
+.three-scene,
+.particle-canvas {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .three-scene,
+  .particle-canvas {
+    animation: none;
+    transform: none;
+  }
+  
+  .name-letter {
+    animation-duration: 0.1s;
+  }
+  
+  .shader-ripple {
+    animation: none;
+  }
+}
