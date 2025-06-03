@@ -13,8 +13,8 @@ const Footer = () => {
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const quickLinksCol1 = ["Home", "About", "Skills"];
-  const quickLinksCol2 = ["Projects", "Services", "Certifications", "Contact"];
+  const quickLinksCol1 = ["Home", "About", "Skills", "Projects"];
+  const quickLinksCol2 = ["Services", "Certifications", "Contact"];
 
   const socialLinks = [
     {
@@ -76,7 +76,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links Column 1 */}
           <div 
             ref={quickLinksRef}
             className="space-y-6 reveal"
@@ -97,7 +97,7 @@ const Footer = () => {
             </nav>
           </div>
 
-          {/* More Links */}
+          {/* Quick Links Column 2 */}
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-white mb-6 font-['Poppins'] opacity-0">
               &nbsp;
@@ -107,7 +107,7 @@ const Footer = () => {
                 <button
                   key={link}
                   onClick={() => scrollToSection(link)}
-                  className={`block text-[#c0c0c0] hover:text-white transition-all duration-300 text-left font-light relative quick-link animate-slide-in-left stagger-${index + 4} text-sm`}
+                  className={`block text-[#c0c0c0] hover:text-white transition-all duration-300 text-left font-light relative quick-link animate-slide-in-left stagger-${index + 5} text-sm`}
                 >
                   {link}
                 </button>
