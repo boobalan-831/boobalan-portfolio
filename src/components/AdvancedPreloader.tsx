@@ -1,8 +1,7 @@
-
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { gsap } from "gsap";
-import { Code, Terminal, Gear, CircuitBoard, Brackets, Microchip, Sigma } from "lucide-react";
+import { Code, Terminal, Settings, CircuitBoard, Brackets, Microchip, Sigma } from "lucide-react";
 
 const AdvancedPreloader = () => {
   const mountRef = useRef<HTMLDivElement>(null);
