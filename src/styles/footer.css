@@ -4,6 +4,9 @@
   background: #000a14;
   padding: 2rem 1rem;
   position: relative;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(79, 179, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(79, 179, 255, 0.03) 0%, transparent 50%);
 }
 
 .footer .logo { 
@@ -12,11 +15,18 @@
   font-size: 1.5rem;
   color: #4fb3ff;
   text-shadow: 0 0 10px rgba(79, 179, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.footer .logo:hover {
+  text-shadow: 0 0 20px rgba(79, 179, 255, 0.5);
+  transform: translateY(-1px);
 }
 
 .footer .quick-link {
   position: relative;
   transition: all 0.3s ease;
+  display: inline-block;
 }
 
 .footer .quick-link::after {
@@ -26,8 +36,13 @@
   left: 0;
   width: 0;
   height: 1px;
-  background: #ffffff;
+  background: #4fb3ff;
   transition: width 0.3s ease;
+}
+
+.footer .quick-link:hover {
+  color: #4fb3ff !important;
+  transform: translateX(4px);
 }
 
 .footer .quick-link:hover::after {
@@ -36,9 +51,55 @@
 
 .footer .social-icon {
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer .social-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(79, 179, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.footer .social-icon:hover::before {
+  left: 100%;
 }
 
 .footer .social-icon:hover {
-  box-shadow: 0 0 12px rgba(79, 179, 255, 0.5);
-  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(79, 179, 255, 0.4);
+  transform: translateY(-2px);
+  border-color: #4fb3ff;
+}
+
+/* Enhanced contact info styling */
+.footer a[href^="mailto"]:hover,
+.footer a[href^="tel"]:hover {
+  color: #4fb3ff !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .footer {
+    padding: 1.5rem 1rem;
+  }
+  
+  .footer .logo {
+    font-size: 1.25rem;
+  }
+}
+
+/* Grid improvements */
+.footer .container > div:first-child {
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .footer .container > div:first-child {
+    gap: 3rem;
+  }
 }
