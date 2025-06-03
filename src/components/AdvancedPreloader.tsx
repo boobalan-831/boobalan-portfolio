@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { gsap } from "gsap";
+import { Code, Terminal, Gear, CircuitBoard, Brackets, Microchip, Sigma } from "lucide-react";
 
 const AdvancedPreloader = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -10,16 +11,43 @@ const AdvancedPreloader = () => {
   const [progress, setProgress] = useState(0);
   const [webglSupported, setWebglSupported] = useState(true);
 
-  // Particle system for mouse interaction
-  const particles = useRef<Array<{
+  // Tech symbols for background animation
+  const techSymbols = useRef<Array<{
     x: number;
     y: number;
     vx: number;
     vy: number;
-    targetX: number;
-    targetY: number;
+    rotation: number;
+    rotationSpeed: number;
+    scale: number;
+    opacity: number;
+    type: string;
+    symbol: string;
+    category: 'code' | 'circuit' | 'cloud';
+    glowIntensity: number;
   }>>([]);
   const mouse = useRef({ x: 0, y: 0 });
+
+  // Engineering symbols data
+  const symbolsData = [
+    // Code & Logic
+    { symbol: '{}', category: 'code' as const, char: true },
+    { symbol: '</>', category: 'code' as const, char: true },
+    { symbol: 'Σ', category: 'code' as const, char: true },
+    { symbol: 'λ', category: 'code' as const, char: true },
+    { symbol: '→', category: 'code' as const, char: true },
+    { symbol: '$', category: 'code' as const, char: true },
+    { symbol: '>_', category: 'code' as const, char: true },
+    // Circuit & Hardware
+    { symbol: '⚡', category: 'circuit' as const, char: true },
+    { symbol: '◊', category: 'circuit' as const, char: true },
+    { symbol: '▲', category: 'circuit' as const, char: true },
+    { symbol: '◆', category: 'circuit' as const, char: true },
+    // Binary patterns
+    { symbol: '101010', category: 'code' as const, char: true },
+    { symbol: '110011', category: 'code' as const, char: true },
+    { symbol: '001101', category: 'code' as const, char: true },
+  ];
 
   useEffect(() => {
     // Check WebGL support
@@ -31,9 +59,9 @@ const AdvancedPreloader = () => {
       return;
     }
 
-    // Initialize Three.js scene
+    // Initialize Three.js scene and tech particle system
     initThreeJSScene();
-    initParticleSystem();
+    initTechParticleSystem();
     startProgressAnimation();
 
     return () => {
@@ -138,7 +166,7 @@ const AdvancedPreloader = () => {
     setTimeout(cleanup, 4000);
   };
 
-  const initParticleSystem = () => {
+  const initTechParticleSystem = () => {
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
@@ -146,19 +174,26 @@ const AdvancedPreloader = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Initialize particles
-    for (let i = 0; i < 100; i++) {
-      particles.current.push({
+    // Initialize tech symbols
+    for (let i = 0; i < 50; i++) {
+      const symbolData = symbolsData[Math.floor(Math.random() * symbolsData.length)];
+      techSymbols.current.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 2,
-        vy: (Math.random() - 0.5) * 2,
-        targetX: Math.random() * canvas.width,
-        targetY: Math.random() * canvas.height
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.02,
+        scale: 0.5 + Math.random() * 0.8,
+        opacity: 0.2 + Math.random() * 0.3,
+        type: 'symbol',
+        symbol: symbolData.symbol,
+        category: symbolData.category,
+        glowIntensity: 0
       });
     }
 
-    // Mouse tracking
+    // Mouse tracking for proximity glow
     const handleMouseMove = (e: MouseEvent) => {
       mouse.current.x = e.clientX;
       mouse.current.y = e.clientY;
@@ -166,46 +201,78 @@ const AdvancedPreloader = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Particle animation loop
-    const animateParticles = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    // Tech particle animation loop
+    const animateTechSymbols = () => {
+      // Clear with dark overlay for matrix effect
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.globalCompositeOperation = 'lighter';
 
-      particles.current.forEach(particle => {
-        // Gravity toward mouse
-        const dx = mouse.current.x - particle.x;
-        const dy = mouse.current.y - particle.y;
+      techSymbols.current.forEach(symbol => {
+        // Calculate distance to mouse for glow effect
+        const dx = mouse.current.x - symbol.x;
+        const dy = mouse.current.y - symbol.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < 200) {
-          particle.vx += dx * 0.0001;
-          particle.vy += dy * 0.0001;
+        // Proximity glow
+        if (distance < 150) {
+          symbol.glowIntensity = Math.max(0, 1 - distance / 150);
+        } else {
+          symbol.glowIntensity *= 0.95; // Fade out glow
         }
 
-        particle.x += particle.vx;
-        particle.y += particle.vy;
+        // Movement
+        symbol.x += symbol.vx;
+        symbol.y += symbol.vy;
+        symbol.rotation += symbol.rotationSpeed;
 
-        // Boundaries
-        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+        // Boundaries with wrapping
+        if (symbol.x < -50) symbol.x = canvas.width + 50;
+        if (symbol.x > canvas.width + 50) symbol.x = -50;
+        if (symbol.y < -50) symbol.y = canvas.height + 50;
+        if (symbol.y > canvas.height + 50) symbol.y = -50;
 
-        // Draw particle
-        ctx.fillStyle = `rgba(79, 179, 255, 0.6)`;
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
-        ctx.fill();
+        // Opacity pulse
+        symbol.opacity += Math.sin(Date.now() * 0.001 + symbol.x * 0.01) * 0.02;
+        symbol.opacity = Math.max(0.1, Math.min(0.5, symbol.opacity));
+
+        // Draw symbol
+        ctx.save();
+        ctx.translate(symbol.x, symbol.y);
+        ctx.rotate(symbol.rotation);
+        ctx.scale(symbol.scale, symbol.scale);
+
+        // Category-based colors
+        let color = '#4fb3ff'; // Default blue
+        if (symbol.category === 'circuit') color = '#0ea5e9';
+        if (symbol.category === 'cloud') color = '#06b6d4';
+
+        // Glow effect
+        if (symbol.glowIntensity > 0) {
+          ctx.shadowColor = color;
+          ctx.shadowBlur = 10 + symbol.glowIntensity * 20;
+        } else {
+          ctx.shadowBlur = 0;
+        }
+
+        ctx.fillStyle = `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(color.slice(3, 5), 16)}, ${parseInt(color.slice(5, 7), 16)}, ${symbol.opacity + symbol.glowIntensity * 0.5})`;
+        ctx.font = `${16 + symbol.glowIntensity * 8}px 'Courier New', monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(symbol.symbol, 0, 0);
+
+        ctx.restore();
       });
 
       ctx.globalCompositeOperation = 'source-over';
 
       if (isVisible) {
-        requestAnimationFrame(animateParticles);
+        requestAnimationFrame(animateTechSymbols);
       }
     };
 
-    animateParticles();
+    animateTechSymbols();
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -269,11 +336,14 @@ const AdvancedPreloader = () => {
           {/* Three.js Scene */}
           <div ref={mountRef} className="three-scene absolute inset-0" />
           
-          {/* Interactive Particles */}
+          {/* Tech Symbol Canvas */}
           <canvas 
             ref={canvasRef} 
             className="particle-canvas absolute inset-0 pointer-events-none"
           />
+          
+          {/* Radial overlay behind text for crisp readability */}
+          <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-slate-900/80" />
           
           {/* Progress Overlay Shader Effect */}
           <div 
@@ -286,10 +356,12 @@ const AdvancedPreloader = () => {
         </>
       ) : (
         /* Fallback for unsupported browsers */
-        <div className="fallback-cube w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/50" />
+        <div className="fallback-cube w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/50 flex items-center justify-center">
+          <Code className="w-8 h-8 text-white" />
+        </div>
       )}
       
-      {/* Text Content */}
+      {/* Text Content with radial background for crisp text */}
       <div className="preloader-text relative z-10 text-center">
         <div className="text-4xl md:text-6xl font-bold mb-4">
           {"Boobalan D".split('').map((letter, index) => (
@@ -303,7 +375,7 @@ const AdvancedPreloader = () => {
           ))}
         </div>
         <div className="subtitle text-lg text-blue-300 opacity-0">
-          Cloud Enthusiast | Full-Stack Developer
+          Computer Science & Engineering
         </div>
         
         {/* Progress Indicator */}
