@@ -1,20 +1,30 @@
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { Mail, MapPin, Phone, Github, Linkedin } from "lucide-react";
+import { Mail, MapPin, Phone, Github, Linkedin, ChevronUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const Footer = () => {
   const footerRef = useScrollReveal();
-  const quickLinksRef = useScrollReveal({ threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
-  const socialRef = useScrollReveal({ threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
-  const copyrightRef = useScrollReveal({ threshold: 0.3, rootMargin: '0px 0px -30px 0px' });
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId.toLowerCase());
-    element?.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.scrollY > window.innerHeight * 0.75;
+      setShowBackToTop(scrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const quickLinksCol1 = ["Home", "About", "Skills", "Projects"];
-  const quickLinksCol2 = ["Services", "Certifications", "Contact"];
+  const resourceLinks = [
+    "Home", "About", "Skills", "Projects", 
+    "Services", "Certifications", "Contact", "Blog"
+  ];
 
   const socialLinks = [
     {
@@ -37,131 +47,168 @@ const Footer = () => {
     }
   ];
 
+  const techStack = [
+    { name: "C++", icon: "C++" },
+    { name: "Java", icon: "☕" },
+    { name: "Python", icon: "🐍" },
+    { name: "JavaScript", icon: "JS" },
+    { name: "React", icon: "⚛" },
+    { name: "GCP", icon: "☁" },
+    { name: "AWS", icon: "☁" },
+    { name: "SQL", icon: "🗄" }
+  ];
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId.toLowerCase());
+    element?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <footer className="footer bg-[#000a14] relative">
-      {/* Top border glow */}
-      <div className="absolute top-0 left-0 right-0 h-px shadow-[inset_0_10px_10px_-10px_rgba(79,179,255,0.6)]"></div>
-      
-      <div className="container mx-auto px-6 py-16">
-        {/* Main Footer Grid */}
+    <>
+      <footer className="footer relative bg-gradient-to-b from-[#0a162a] to-[#071022] text-[#c0c0c0] py-12 px-8 overflow-hidden">
+        {/* Code Matrix Background */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="code-matrix">
+            <span>010101</span>
+            <span>&lt;/&gt;</span>
+            <span>function()</span>
+            <span>class</span>
+            <span>{ C++ }</span>
+            <span>git commit</span>
+            <span>GCP</span>
+            <span>AWS</span>
+            <span>SQL</span>
+            <span>&lt;/&gt;</span>
+            <span>010101</span>
+            <span>function()</span>
+          </div>
+        </div>
+
+        {/* Top Glow Border */}
+        <div className="absolute top-0 left-0 right-0 h-px shadow-[inset_0_10px_20px_rgba(79,179,255,0.4)]"></div>
+        
         <div 
           ref={footerRef}
-          className="grid lg:grid-cols-4 md:grid-cols-2 gap-12 mb-12 reveal"
+          className="container mx-auto relative z-10 reveal"
         >
-          {/* Brand & Description */}
-          <div className="lg:col-span-1 space-y-6 animate-fade-in-up stagger-1">
-            <div>
-              <div className="logo text-3xl font-bold text-[#4fb3ff] mb-4 font-['Poppins'] animate-fade-in-up stagger-1">
-                Boobalan D
-              </div>
-              <p className="text-[#c0c0c0] font-light leading-relaxed animate-fade-in-up stagger-2 text-sm">
-                Creating innovative solutions through code, cloud, and collaboration.
-              </p>
-            </div>
+          {/* Three Column Grid */}
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mb-8">
             
-            {/* Social Links */}
-            <div className="flex space-x-4">
-              {socialLinks.map((social, index) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target={social.external ? "_blank" : undefined}
-                  rel={social.external ? "noopener noreferrer" : undefined}
-                  className={`social-icon w-10 h-10 rounded bg-slate-800/50 border border-slate-700 flex items-center justify-center text-[#c0c0c0] hover:bg-[#4fb3ff] hover:text-white hover:border-[#4fb3ff] transition-all duration-300 group animate-bounce-in stagger-${index + 3}`}
-                  title={social.label}
-                >
-                  <social.icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick Links Column 1 */}
-          <div 
-            ref={quickLinksRef}
-            className="space-y-6 reveal"
-          >
-            <h3 className="text-lg font-semibold text-white mb-6 font-['Poppins']">
-              Quick Links
-            </h3>
-            <nav className="space-y-3">
-              {quickLinksCol1.map((link, index) => (
-                <button
-                  key={link}
-                  onClick={() => scrollToSection(link)}
-                  className={`block text-[#c0c0c0] hover:text-white transition-all duration-300 text-left font-light relative quick-link animate-slide-in-left stagger-${index + 1} text-sm`}
-                >
-                  {link}
-                </button>
-              ))}
-            </nav>
-          </div>
-
-          {/* Quick Links Column 2 */}
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-white mb-6 font-['Poppins'] opacity-0">
-              &nbsp;
-            </h3>
-            <nav className="space-y-3">
-              {quickLinksCol2.map((link, index) => (
-                <button
-                  key={link}
-                  onClick={() => scrollToSection(link)}
-                  className={`block text-[#c0c0c0] hover:text-white transition-all duration-300 text-left font-light relative quick-link animate-slide-in-left stagger-${index + 5} text-sm`}
-                >
-                  {link}
-                </button>
-              ))}
-            </nav>
-          </div>
-
-          {/* Contact Info */}
-          <div 
-            ref={socialRef}
-            className="space-y-6 reveal"
-          >
-            <h3 className="text-lg font-semibold text-white mb-6 font-['Poppins']">
-              Contact Info
-            </h3>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3 text-[#c0c0c0] animate-fade-in-up stagger-7">
-                <MapPin className="w-4 h-4 text-[#4fb3ff] mt-1 flex-shrink-0" />
-                <span className="font-light text-sm">Chennai, Tamil Nadu, India</span>
+            {/* Column 1: About + Signature */}
+            <div className="footer-column animate-column-entry opacity-0" style={{ animationDelay: '0.2s' }}>
+              <h3 className="text-xl font-bold bg-gradient-to-r from-[#4fb3ff] to-[#0ea5e9] bg-clip-text text-transparent font-['Poppins'] mb-4">
+                Boobalan D
+              </h3>
+              <p className="font-light leading-relaxed mb-6 font-['Roboto']">
+                <span className="crafting-text relative">Crafting</span> innovative solutions through code, cloud, and collaboration.
+              </p>
+              
+              {/* Social Icons */}
+              <div className="flex gap-2">
+                {socialLinks.map((social, index) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target={social.external ? "_blank" : undefined}
+                    rel={social.external ? "noopener noreferrer" : undefined}
+                    className="signature-icon w-10 h-10 border-2 border-[#4fb3ff] rounded flex items-center justify-center text-[#4fb3ff] transition-all duration-300 hover:bg-[#4fb3ff] hover:text-[#071022] hover:scale-110"
+                    title={social.label}
+                  >
+                    <social.icon className="w-4 h-4" />
+                  </a>
+                ))}
               </div>
+            </div>
+
+            {/* Column 2: Resource Hub */}
+            <div className="footer-column animate-column-entry opacity-0" style={{ animationDelay: '0.4s' }}>
+              <h3 className="text-xl font-bold text-[#4fb3ff] font-['Poppins'] mb-4">
+                Resource Hub
+              </h3>
+              <ul className="resource-list space-y-2">
+                {resourceLinks.map((link, index) => (
+                  <li 
+                    key={link}
+                    className="terminal-link relative pl-6 cursor-pointer text-[#c0c0c0] font-['Roboto_Mono'] transition-transform duration-300 hover:translate-x-1 animate-resource-entry opacity-0"
+                    style={{ animationDelay: `${0.6 + index * 0.1}s` }}
+                    onClick={() => scrollToSection(link)}
+                  >
+                    <span className="absolute left-0 text-[#4fb3ff] arrow-flash">&gt;</span>
+                    cd /portfolio/{link.toLowerCase()}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 3: Contact & Tech Stack */}
+            <div className="footer-column animate-column-entry opacity-0" style={{ animationDelay: '0.6s' }}>
+              <h3 className="text-xl font-bold text-[#4fb3ff] font-['Poppins'] mb-4">
+                Reach Me
+              </h3>
               
-              <a
-                href="mailto:boobalannandha20@gmail.com"
-                className="flex items-start space-x-3 text-[#c0c0c0] hover:text-white transition-all duration-300 group animate-fade-in-up stagger-8"
-              >
-                <Mail className="w-4 h-4 text-[#4fb3ff] group-hover:scale-110 transition-transform duration-300 mt-1 flex-shrink-0" />
-                <span className="font-light text-sm break-all">boobalannandha20@gmail.com</span>
-              </a>
-              
-              <a
-                href="tel:+919597423518"
-                className="flex items-start space-x-3 text-[#c0c0c0] hover:text-white transition-all duration-300 group animate-fade-in-up stagger-9"
-              >
-                <Phone className="w-4 h-4 text-[#4fb3ff] group-hover:scale-110 transition-transform duration-300 mt-1 flex-shrink-0" />
-                <span className="font-light text-sm">+91 9597423518</span>
-              </a>
+              {/* Contact Info */}
+              <div className="space-y-3 mb-6">
+                <div className="contact-item flex items-center group">
+                  <MapPin className="w-4 h-4 text-[#4fb3ff] mr-2 group-hover:text-white transition-colors duration-300" />
+                  <span className="font-['Roboto'] text-sm">Chennai, Tamil Nadu, India</span>
+                </div>
+                
+                <a
+                  href="mailto:boobalannandha20@gmail.com"
+                  className="contact-item flex items-center group hover:text-white transition-colors duration-300"
+                >
+                  <Mail className="w-4 h-4 text-[#4fb3ff] mr-2 group-hover:text-white transition-colors duration-300" />
+                  <span className="font-['Roboto'] text-sm">boobalannandha20@gmail.com</span>
+                </a>
+                
+                <a
+                  href="tel:+919597423518"
+                  className="contact-item flex items-center group hover:text-white transition-colors duration-300"
+                >
+                  <Phone className="w-4 h-4 text-[#4fb3ff] mr-2 group-hover:text-white transition-colors duration-300" />
+                  <span className="font-['Roboto'] text-sm">+91 9597423518</span>
+                </a>
+              </div>
+
+              {/* Tech Stack Badges */}
+              <div className="tech-badges flex flex-wrap gap-2">
+                {techStack.map((tech, index) => (
+                  <div
+                    key={tech.name}
+                    className="tech-badge w-10 h-10 border-2 border-[#4fb3ff] rounded-full flex items-center justify-center text-[#4fb3ff] bg-[#071022] opacity-0 scale-75 transition-all duration-300 hover:-translate-y-1 hover:bg-[#4fb3ff] hover:text-[#071022] hover:shadow-[0_0_12px_rgba(79,179,255,0.6)]"
+                    style={{ animationDelay: `${1.0 + index * 0.05}s` }}
+                    title={tech.name}
+                  >
+                    <span className="text-xs font-bold">{tech.icon}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Copyright Section */}
-        <div 
-          ref={copyrightRef}
-          className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 reveal"
-        >
-          <p className="text-[#c0c0c0] font-light animate-fade-in-up stagger-10 text-sm">
-            © 2025 Boobalan D. All rights reserved.
-          </p>
-          <p className="text-[#c0c0c0] text-sm opacity-60 font-light animate-fade-in-up stagger-11">
-            Built with React & Tailwind CSS
-          </p>
+          {/* Footer Bottom Bar */}
+          <div className="border-t border-[#1a2230] pt-4 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+            <p className="text-[#707070] font-['Roboto'] text-sm hover:text-white transition-colors duration-300">
+              © 2025 Boobalan D. All rights reserved.
+            </p>
+            <p className="text-[#505050] font-['Roboto'] text-sm credit-text cursor-pointer hover:text-white transition-colors duration-300">
+              Built with React & Tailwind CSS
+            </p>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+
+      {/* Back to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`back-to-top fixed bottom-8 left-1/2 transform -translate-x-1/2 w-14 h-14 border-2 border-[#4fb3ff] rounded-full bg-transparent flex items-center justify-center text-[#4fb3ff] transition-all duration-400 z-50 hover:shadow-[0_0_12px_rgba(79,179,255,0.6)] ${
+          showBackToTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        aria-label="Scroll to top"
+      >
+        <ChevronUp className="w-6 h-6 chevron-pulse" />
+      </button>
+    </>
   );
 };
 
