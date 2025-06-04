@@ -89,65 +89,67 @@ const Skills = () => {
   };
 
   return (
-    <section ref={sectionRef} id="skills" className="page-container py-12 sm:py-16 lg:py-20 bg-slate-800/30">
-      <div className="page-heading text-center mb-8 sm:mb-12 lg:mb-16">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-          Skills & Technologies
-        </h2>
-        <div className="underline w-16 sm:w-20 lg:w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto"></div>
-      </div>
+    <section ref={sectionRef} id="skills" className="py-20 bg-slate-800/30">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+            Skills & Technologies
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto"></div>
+        </div>
 
-      <div className="content-wrapper skills-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        {skillCategories.map((category, index) => (
-          <Card 
-            key={category.title}
-            className={`card skill-card bg-slate-800/50 border-slate-700 transition-all duration-500 group cursor-pointer ${
-              animateCards ? 'animate-skill-card-enter' : 'opacity-0 scale-90'
-            }`}
-            style={{ 
-              animationDelay: `${index * 200}ms`,
-              '--category-accent': `var(--${category.color}-accent)`
-            } as React.CSSProperties}
-          >
-            <CardContent className="p-6 sm:p-8">
-              <div className="text-center mb-4 sm:mb-6">
-                <div className={`skill-icon w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-full ${getColorClass(category.color, 'bg')} ${getColorClass(category.color, 'border')} border-2 flex items-center justify-center mb-3 sm:mb-4 transition-all duration-300`}>
-                  <category.icon className={`w-6 h-6 sm:w-8 sm:h-8 ${getColorClass(category.color, 'text')} transition-transform duration-300 group-hover:scale-110`} />
-                </div>
-                <h3 className={`text-lg sm:text-xl font-semibold ${getColorClass(category.color, 'text')}`}>
-                  {category.title}
-                </h3>
-              </div>
-              
-              <div className="space-y-2 sm:space-y-3">
-                {category.skills.map((skill, skillIndex) => (
-                  <div 
-                    key={skill}
-                    className={`skill-item bg-slate-700/50 rounded-lg p-2 sm:p-3 text-center text-gray-300 hover:bg-slate-700/70 transition-all duration-300 text-sm sm:text-base ${
-                      animateItems[index] ? 'animate-skill-item-enter' : 'opacity-0 translate-x-4'
-                    }`}
-                    style={{ animationDelay: `${skillIndex * 100}ms` }}
-                  >
-                    {skill}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {skillCategories.map((category, index) => (
+            <Card 
+              key={category.title}
+              className={`skill-card bg-slate-800/50 border-slate-700 transition-all duration-500 group cursor-pointer ${
+                animateCards ? 'animate-skill-card-enter' : 'opacity-0 scale-90'
+              }`}
+              style={{ 
+                animationDelay: `${index * 200}ms`,
+                '--category-accent': `var(--${category.color}-accent)`
+              } as React.CSSProperties}
+            >
+              <CardContent className="p-8">
+                <div className="text-center mb-6">
+                  <div className={`skill-icon w-16 h-16 mx-auto rounded-full ${getColorClass(category.color, 'bg')} ${getColorClass(category.color, 'border')} border-2 flex items-center justify-center mb-4 transition-all duration-300`}>
+                    <category.icon className={`w-8 h-8 ${getColorClass(category.color, 'text')} transition-transform duration-300 group-hover:scale-110`} />
                   </div>
-                ))}
+                  <h3 className={`text-xl font-semibold ${getColorClass(category.color, 'text')}`}>
+                    {category.title}
+                  </h3>
+                </div>
+                
+                <div className="space-y-3">
+                  {category.skills.map((skill, skillIndex) => (
+                    <div 
+                      key={skill}
+                      className={`skill-item bg-slate-700/50 rounded-lg p-3 text-center text-gray-300 hover:bg-slate-700/70 transition-all duration-300 ${
+                        animateItems[index] ? 'animate-skill-item-enter' : 'opacity-0 translate-x-4'
+                      }`}
+                      style={{ animationDelay: `${skillIndex * 100}ms` }}
+                    >
+                      {skill}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <Card className={`bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/10 max-w-2xl mx-auto transition-all duration-500 ${
+            animateCards ? 'animate-skill-card-enter' : 'opacity-0 scale-90'
+          }`} style={{ animationDelay: '600ms' }}>
+            <CardContent className="p-8">
+              <h3 className="text-2xl font-semibold text-blue-400 mb-4">UI Tools</h3>
+              <div className="bg-slate-700/50 rounded-lg p-4 inline-block">
+                <span className="text-gray-300 text-lg">Figma (Basic)</span>
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
-
-      <div className="mt-12 sm:mt-16 text-center">
-        <Card className={`card bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/10 max-w-2xl mx-auto transition-all duration-500 ${
-          animateCards ? 'animate-skill-card-enter' : 'opacity-0 scale-90'
-        }`} style={{ animationDelay: '600ms' }}>
-          <CardContent className="p-6 sm:p-8">
-            <h3 className="text-xl sm:text-2xl font-semibold text-blue-400 mb-3 sm:mb-4">UI Tools</h3>
-            <div className="bg-slate-700/50 rounded-lg p-3 sm:p-4 inline-block">
-              <span className="text-gray-300 text-base sm:text-lg">Figma (Basic)</span>
-            </div>
-          </CardContent>
-        </Card>
+        </div>
       </div>
     </section>
   );
