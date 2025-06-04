@@ -73,7 +73,7 @@ const Footer = () => {
             <span>&lt;/&gt;</span>
             <span>function()</span>
             <span>class</span>
-            <span>{ C++ }</span>
+            <span>{"{ C++ }"}</span>
             <span>git commit</span>
             <span>GCP</span>
             <span>AWS</span>
