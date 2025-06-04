@@ -43,15 +43,6 @@
   width: 100%;
 }
 
-/* Hamburger Menu Animation */
-.hamburger-line {
-  width: 100%;
-  height: 2px;
-  background: currentColor;
-  transition: all 0.4s ease;
-  transform-origin: center;
-}
-
 /* Mobile Drawer Animation */
 .nav-drawer-item {
   transform: translateX(30px);
@@ -59,13 +50,79 @@
   animation: slideInDrawer 0.4s ease-out forwards;
 }
 
-/* Focus States for Accessibility */
-.nav-link-enhanced:focus {
-  outline: 2px solid var(--primary-blue);
-  outline-offset: 2px;
+@keyframes slideInDrawer {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
+/* Resume Button Styles */
+.resume-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.resume-btn:hover::before {
+  left: 100%;
+}
+
+/* Focus States for Accessibility */
+.nav-link-enhanced:focus,
+.resume-btn:focus,
 button:focus {
   outline: 2px solid var(--primary-blue);
   outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Responsive Navigation */
+@media (max-width: 768px) {
+  .nav-drawer {
+    padding: 1rem;
+  }
+  
+  .nav-drawer-item {
+    font-size: 1rem;
+    padding: 0.75rem 0;
+  }
+  
+  .resume-btn {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-logo {
+    font-size: 1rem;
+  }
+  
+  .nav-drawer {
+    width: 100%;
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1024px) {
+  .nav-link-enhanced {
+    font-size: 1rem;
+  }
+  
+  .resume-btn {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
 }
