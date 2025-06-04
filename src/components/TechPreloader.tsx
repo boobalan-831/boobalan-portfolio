@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
@@ -48,6 +47,9 @@ const TechPreloader = () => {
   ];
 
   useEffect(() => {
+    // Add loading-active class to body on mount
+    document.body.classList.add('loading-active');
+    
     initFloatingSymbols();
     startTypewriterAnimation();
     
@@ -60,6 +62,22 @@ const TechPreloader = () => {
       }
     };
   }, []);
+
+  const finishPreloading = () => {
+    const timeline = gsap.timeline();
+    timeline
+      .to(".tech-preloader", { 
+        scale: 1.1, 
+        opacity: 0, 
+        duration: 0.8, 
+        ease: "power2.inOut" 
+      })
+      .call(() => {
+        // Remove loading-active class to show header and back-to-top
+        document.body.classList.remove('loading-active');
+        setIsVisible(false);
+      });
+  };
 
   const initFloatingSymbols = () => {
     if (!canvasRef.current) return;
@@ -194,15 +212,7 @@ const TechPreloader = () => {
         
         // Final transition
         setTimeout(() => {
-          const timeline = gsap.timeline();
-          timeline
-            .to(".tech-preloader", { 
-              scale: 1.1, 
-              opacity: 0, 
-              duration: 0.8, 
-              ease: "power2.inOut" 
-            })
-            .call(() => setIsVisible(false));
+          finishPreloading();
         }, 800);
       }
     }, 50);
