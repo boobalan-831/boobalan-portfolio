@@ -34,6 +34,31 @@
   }
 }
 
+/* New Tech Animation Keyframes */
+@keyframes ringRotateSlow {
+  0%   { transform: rotate(0deg); }
+  50%  { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes ringPulse {
+  0%   { opacity: 0.2; transform: scale(0.9); }
+  50%  { opacity: 0.25; transform: scale(1.05); }
+  100% { opacity: 0.2; transform: scale(0.9); }
+}
+
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translateY(10px); }
+  50%  { opacity: 0.15; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+@keyframes fadeInOutSlower {
+  0%   { opacity: 0; transform: translateY(10px); }
+  50%  { opacity: 0.15; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
 /* Utility classes */
 .animate-fade-in-slow {
   animation: fadeInSlow 3s ease-in-out infinite alternate;
@@ -55,11 +80,49 @@
   animation: bounceSlow 2s infinite;
 }
 
+/* New Tech Animation Classes */
+.animate-ring-rotate-slow {
+  animation: ringRotateSlow 20s linear infinite;
+  will-change: transform;
+}
+
+.animate-ring-pulse {
+  animation: ringPulse 5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.floating-code {
+  position: absolute;
+  animation: fadeInOut 6s ease-in-out infinite alternate;
+  font-family: monospace;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.animate-fade-slower {
+  animation: fadeInOutSlower 8s ease-in-out infinite alternate;
+}
+
+.animate-fade-normal {
+  animation: fadeInOut 6s ease-in-out infinite alternate;
+}
+
+.animate-particle-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -20;
+}
+
 /* Responsive adjustments */
 @media (max-width: 640px) {
-  .animate-fade-in-slow,
-  .animate-fade-in-slower {
-    display: none; /* Hide background symbols on very small screens */
+  .floating-code {
+    animation-duration: 8s; /* Slower on mobile */
+  }
+  
+  /* Reduce photo size on mobile */
+  .hero-profile-photo {
+    width: 144px;
+    height: 144px;
   }
 }
 
