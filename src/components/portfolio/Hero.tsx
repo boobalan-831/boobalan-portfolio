@@ -1,16 +1,14 @@
 
 import { Button } from "@/components/ui/button";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { ChevronDown } from "lucide-react";
-import * as THREE from "three";
 
 const Hero = () => {
   const [displayText, setDisplayText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
   const fullText = "Cloud Enthusiast | Full-Stack Developer | Problem Solver";
   const heroRef = useScrollReveal();
-  const ringCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Typing effect for subtitle
   useEffect(() => {
@@ -27,41 +25,6 @@ const Hero = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Three.js 3D ring setup for desktop
-  useEffect(() => {
-    if (!ringCanvasRef.current || window.innerWidth < 640) return;
-    
-    const canvas = ringCanvasRef.current;
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-100, 100, 100, -100, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    
-    renderer.setSize(200, 200);
-    camera.position.z = 50;
-
-    // Create torus ring
-    const torusGeometry = new THREE.TorusGeometry(35, 2, 8, 50);
-    const torusMaterial = new THREE.MeshBasicMaterial({ 
-      color: 0x4fb3ff, 
-      transparent: true, 
-      opacity: 0.25 
-    });
-    const torus = new THREE.Mesh(torusGeometry, torusMaterial);
-    scene.add(torus);
-
-    // Animation loop
-    const animate = () => {
-      requestAnimationFrame(animate);
-      torus.rotation.y += 0.002;
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    return () => {
-      renderer.dispose();
-    };
-  }, []);
-
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: "smooth" });
@@ -73,59 +36,43 @@ const Hero = () => {
       id="home"
       className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-br from-[#0a162a] to-[#071022] px-6"
     >
-      {/* Binary Bar - Desktop Only */}
-      <div className="binary-bar absolute top-4 left-0 w-full overflow-hidden">
-        <span className="binary-text">01010111010101010100101010101011010101001010101110101010101001010101</span>
-      </div>
-
-      {/* Particle Trails - Desktop Only */}
-      <div className="particle-trails top-left">
-        {Array.from({ length: 20 }, (_, i) => (
-          <span
-            key={`left-${i}`}
-            style={{
-              left: `${Math.random() * 180}px`,
-              animationDelay: `${Math.random() * 8}s`,
-            }}
-          />
-        ))}
-      </div>
-      <div className="particle-trails top-right">
-        {Array.from({ length: 20 }, (_, i) => (
-          <span
-            key={`right-${i}`}
-            style={{
-              left: `${Math.random() * 180}px`,
-              animationDelay: `${Math.random() * 8}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Minimal Glow Overlay - Mobile Fallback */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 sm:hidden">
-        <div className="w-[400px] h-[400px] rounded-full bg-gradient-to-br from-[#0a162a] to-[#071022] opacity-20 animate-pulse-slow"></div>
+      {/* Subtle Animated Background Elements */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* Tech symbols with subtle animations */}
+        <div className="absolute top-10 left-5 opacity-10 animate-fade-in-slow">
+          <span className="text-[2rem] text-[#4fb3ff]">{`{ }`}</span>
+        </div>
+        <div className="absolute bottom-20 right-10 opacity-10 animate-fade-in-slower">
+          <span className="text-[2rem] text-[#0ea5e9]">{`</>`}</span>
+        </div>
+        <div className="absolute top-20 right-5 opacity-10 animate-fade-in-slow">
+          <span className="text-[1.5rem] text-[#4fb3ff]">{"λ"}</span>
+        </div>
+        <div className="absolute bottom-10 left-10 opacity-10 animate-fade-in-slower">
+          <span className="text-[1.5rem] text-[#0ea5e9]">{"⚙"}</span>
+        </div>
+        <div className="absolute top-1/3 left-20 opacity-10 animate-fade-in-slow">
+          <span className="text-[1.5rem] text-[#4fb3ff]">{"Σ"}</span>
+        </div>
+        <div className="absolute bottom-1/3 right-20 opacity-10 animate-fade-in-slower">
+          <span className="text-[1.5rem] text-[#0ea5e9]">{"1010"}</span>
+        </div>
+        
+        {/* Faint circular radial glow behind content */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="w-[400px] h-[400px] rounded-full bg-gradient-to-br from-[#0a162a] to-[#071022] opacity-20 animate-pulse-slow"></div>
+        </div>
       </div>
 
       {/* Main Content Container */}
       <div className="container mx-auto text-center relative z-10 max-w-2xl">
-        {/* Profile Photo with 3D Ring (Desktop) */}
-        <div className="relative w-40 h-40 sm:w-40 sm:h-40 w-36 h-36 mb-8 mx-auto">
-          {/* 3D Ring Canvas - Desktop Only */}
-          <canvas
-            ref={ringCanvasRef}
-            className="hero-ring-canvas hidden sm:block"
-            aria-hidden="true"
+        {/* Profile Photo (static) */}
+        <div className="mx-auto w-40 h-40 rounded-full border-4 border-[#4fb3ff] overflow-hidden mb-8 shadow-lg">
+          <img
+            src="/lovable-uploads/cf035bd2-11aa-4a59-868c-f9349f633ead.png"
+            alt="Boobalan D - Full Stack Developer"
+            className="w-full h-full object-cover"
           />
-          
-          {/* Photo */}
-          <div className="relative w-full h-full rounded-full border-4 border-[#4fb3ff] overflow-hidden hero-profile-photo">
-            <img
-              src="/lovable-uploads/cf035bd2-11aa-4a59-868c-f9349f633ead.png"
-              alt="Boobalan D - Full Stack Developer"
-              className="w-full h-full object-cover"
-            />
-          </div>
         </div>
 
         {/* Headline */}
@@ -149,7 +96,7 @@ const Hero = () => {
         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
           <Button
             size="lg"
-            className="bg-gradient-to-r from-[#4fb3ff] to-[#0ea5e9] text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 font-['Poppins'] font-medium hero-cta-button"
+            className="bg-gradient-to-r from-[#4fb3ff] to-[#0ea5e9] text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 font-['Poppins'] font-medium"
             onClick={() => scrollToSection("projects")}
           >
             View My Work
@@ -157,19 +104,19 @@ const Hero = () => {
           <Button
             size="lg"
             variant="outline"
-            className="border-2 border-[#4fb3ff] text-[#4fb3ff] px-6 py-3 rounded-full hover:bg-[#0a1a33] hover:shadow-lg transition-all duration-300 font-['Poppins'] font-medium bg-transparent hero-cta-button"
+            className="border-2 border-[#4fb3ff] text-[#4fb3ff] px-6 py-3 rounded-full hover:bg-[#0a1a33] hover:shadow-lg transition-all duration-300 font-['Poppins'] font-medium bg-transparent"
             onClick={() => scrollToSection("contact")}
           >
             Hire Me
           </Button>
         </div>
 
-        {/* Scroll Indicator - Perfectly Centered */}
-        <div className="scroll-container absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center">
-          <div className="w-12 h-12 border-2 border-[#4fb3ff] rounded-full flex items-center justify-center mb-2 animate-bounce-slow mx-auto cursor-pointer" onClick={() => scrollToSection("about")}>
+        {/* Scroll Indicator */}
+        <div className="flex flex-col items-center cursor-pointer" onClick={() => scrollToSection("about")}>
+          <div className="w-12 h-12 border-2 border-[#4fb3ff] rounded-full flex items-center justify-center mb-2 animate-bounce-slow">
             <ChevronDown className="w-5 h-5 text-[#4fb3ff]" />
           </div>
-          <p className="text-sm text-[#c0e8ff]/60">Scroll to explore</p>
+          <p className="text-[#c0e8ff] text-sm opacity-80">Scroll to explore</p>
         </div>
       </div>
     </section>

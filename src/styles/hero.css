@@ -1,5 +1,4 @@
 
-
 /* Hero Section Styles - Professional & Clean */
 
 /* Custom Keyframes & Animation Classes */
@@ -35,19 +34,6 @@
   }
 }
 
-/* Binary Bar Animation */
-@keyframes scrollBinary {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-
-/* Particle Trails Animation */
-@keyframes driftDown {
-  0%   { transform: translate(0, -10px); opacity: 0.15; }
-  50%  { opacity: 0.1; }
-  100% { transform: translate(10px, 200px); opacity: 0; }
-}
-
 /* Utility classes */
 .animate-fade-in-slow {
   animation: fadeInSlow 3s ease-in-out infinite alternate;
@@ -69,91 +55,11 @@
   animation: bounceSlow 2s infinite;
 }
 
-/* 3D Ring Canvas */
-.hero-ring-canvas {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200px;
-  height: 200px;
-  transform: translate(-50%, -50%);
-  z-index: -5;
-  will-change: transform;
-}
-
-/* Binary Bar - Desktop Only */
-.binary-bar {
-  display: block;
-  pointer-events: none;
-  z-index: -10;
-}
-
-.binary-text {
-  display: inline-block;
-  white-space: nowrap;
-  color: rgba(79, 179, 255, 0.1);
-  animation: scrollBinary 10s linear infinite;
-  font-family: monospace;
-  font-size: 0.875rem;
-}
-
-/* Particle Trails */
-.particle-trails {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  overflow: visible;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.particle-trails.top-left { 
-  top: 0; 
-  left: 0; 
-}
-
-.particle-trails.top-right { 
-  top: 0; 
-  right: 0; 
-}
-
-.particle-trails span {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background-color: rgba(79, 179, 255, 0.15);
-  border-radius: 50%;
-  animation: driftDown 8s linear infinite;
-  will-change: transform, opacity;
-}
-
-/* Scroll Container Centering */
-.scroll-container {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.scroll-container:hover {
-  transform: translate(-50%, -2px);
-}
-
 /* Responsive adjustments */
 @media (max-width: 640px) {
-  /* Hide desktop-only elements on mobile */
-  .binary-bar,
-  .particle-trails {
-    display: none;
-  }
-  
-  /* Reduce photo size on mobile */
-  .hero-profile-photo {
-    width: 144px;
-    height: 144px;
-  }
-
-  /* Adjust scroll container for mobile */
-  .scroll-container {
-    bottom: 6rem;
+  .animate-fade-in-slow,
+  .animate-fade-in-slower {
+    display: none; /* Hide background symbols on very small screens */
   }
 }
 
@@ -173,11 +79,4 @@
 
 .hero-profile-photo:hover {
   transform: scale(1.02);
-}
-
-/* GPU optimization for animations */
-.hero-ring-canvas,
-.particle-trails,
-.binary-bar {
-  will-change: transform, opacity;
 }
