@@ -1,5 +1,5 @@
 
-/* Hero Section Styles - Professional & Clean */
+/* Hero Section Styles - Professional & Clean with Impressive Tech Animations */
 
 /* Custom Keyframes & Animation Classes */
 @keyframes fadeInSlow {
@@ -34,6 +34,27 @@
   }
 }
 
+/* NEW: Slow background ring rotation */
+@keyframes ringRotateSlow {
+  0%   { transform: rotate(0deg)   scale(1); }
+  50%  { transform: rotate(180deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* NEW: Parallax ring pulse (slight scale/opacity) */
+@keyframes ringPulse {
+  0%   { opacity: 0.2; transform: scale(0.9); }
+  50%  { opacity: 0.25; transform: scale(1.05); }
+  100% { opacity: 0.2; transform: scale(0.9); }
+}
+
+/* NEW: Floating code snippet fade in/out */
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translateY(10px); }
+  50%  { opacity: 0.15; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
 /* Utility classes */
 .animate-fade-in-slow {
   animation: fadeInSlow 3s ease-in-out infinite alternate;
@@ -55,10 +76,28 @@
   animation: bounceSlow 2s infinite;
 }
 
+/* NEW: Ring animations */
+.animate-ring-rotate-slow {
+  animation: ringRotateSlow 20s linear infinite;
+}
+
+.animate-ring-pulse {
+  animation: ringPulse 5s ease-in-out infinite;
+}
+
+/* NEW: Floating code snippets */
+.floating-code {
+  position: absolute;
+  animation: fadeInOut 6s ease-in-out infinite alternate;
+  font-family: monospace;
+  pointer-events: none;
+}
+
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .animate-fade-in-slow,
-  .animate-fade-in-slower {
+  .animate-fade-in-slower,
+  .floating-code {
     display: none; /* Hide background symbols on very small screens */
   }
 }
@@ -79,4 +118,23 @@
 
 .hero-profile-photo:hover {
   transform: scale(1.02);
+}
+
+/* Responsive typography adjustments */
+@media (min-width: 640px) {
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .font-mono {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+  }
+  .font-mono {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
 }
