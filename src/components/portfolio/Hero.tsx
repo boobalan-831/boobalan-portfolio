@@ -31,62 +31,95 @@ const Hero = () => {
   };
 
   return (
-    <section ref={heroRef} id="home" className="hero min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Floating Tech Icons Background */}
-      <div className="tech-icons-container absolute inset-0 pointer-events-none">
-        <div className="tech-icon tech-icon-1" style={{ left: '10%', animationDuration: '6s' }}>{"{ }"}</div>
-        <div className="tech-icon tech-icon-2" style={{ left: '20%', animationDuration: '8s' }}>{"</>"}</div>
-        <div className="tech-icon tech-icon-3" style={{ left: '80%', animationDuration: '7s' }}>{"Σ"}</div>
-        <div className="tech-icon tech-icon-4" style={{ left: '90%', animationDuration: '5s' }}>{"⚙"}</div>
-        <div className="tech-icon tech-icon-5" style={{ left: '70%', animationDuration: '6.5s' }}>{"λ"}</div>
+    <section ref={heroRef} id="home" className="hero min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-900">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Floating Tech Symbols */}
+        <div className="tech-symbols-container">
+          <div className="tech-symbol tech-symbol-1" style={{ left: '10%', top: '20%', animationDuration: '6s' }}>{"{ }"}</div>
+          <div className="tech-symbol tech-symbol-2" style={{ left: '20%', top: '60%', animationDuration: '8s' }}>{"</>"}</div>
+          <div className="tech-symbol tech-symbol-3" style={{ left: '80%', top: '30%', animationDuration: '7s' }}>{"Σ"}</div>
+          <div className="tech-symbol tech-symbol-4" style={{ left: '90%', top: '70%', animationDuration: '5s' }}>{"⚙"}</div>
+          <div className="tech-symbol tech-symbol-5" style={{ left: '70%', top: '15%', animationDuration: '6.5s' }}>{"λ"}</div>
+          <div className="tech-symbol tech-symbol-6" style={{ left: '15%', top: '80%', animationDuration: '7.5s' }}>{"1010"}</div>
+          <div className="tech-symbol tech-symbol-7" style={{ left: '85%', top: '85%', animationDuration: '6.8s' }}>{"API"}</div>
+          <div className="tech-symbol tech-symbol-8" style={{ left: '5%', top: '40%', animationDuration: '8.2s' }}>{"⟨⟩"}</div>
+        </div>
+
+        {/* Animated Gradient Orbs */}
+        <div className="gradient-orb gradient-orb-1"></div>
+        <div className="gradient-orb gradient-orb-2"></div>
+        <div className="gradient-orb gradient-orb-3"></div>
+
+        {/* Radar Circles */}
+        <div className="radar-container">
+          <div className="radar-circle radar-circle-1"></div>
+          <div className="radar-circle radar-circle-2"></div>
+          <div className="radar-circle radar-circle-3"></div>
+        </div>
       </div>
 
-      <div className="container max-w-4xl mx-auto px-6 relative z-10 text-center">
-        {/* Profile Picture */}
+      <div className="container max-w-6xl mx-auto px-6 relative z-10 text-center">
+        {/* Profile Picture with Gradient Ring */}
         <div className="hero-profile animate-scale-in mb-8">
-          <div className="w-48 h-48 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-1 shadow-xl hover:shadow-blue-500/30 transition-all duration-300 group hover:scale-105">
-            <div className="w-full h-full rounded-full overflow-hidden">
-              <img 
-                src="https://postimage.me/images/2025/05/28/4333829_applicantPhotoFile.jpg" 
-                alt="Boobalan D - Full Stack Developer"
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
+          <div className="profile-ring-container">
+            <div className="profile-gradient-ring">
+              <div className="profile-image-container">
+                <img 
+                  src="/lovable-uploads/cf035bd2-11aa-4a59-868c-f9349f633ead.png" 
+                  alt="Boobalan D - Full Stack Developer"
+                  className="profile-image"
+                />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Hero Content */}
-        <div className="text-center space-y-6">
-          {/* Main Heading */}
+        <div className="text-center space-y-8">
+          {/* Main Heading with Glow Effect */}
           <h1 className="hero-title animate-fade-slide-up stagger-1">
-            Hi, I'm <span className="hero-name-highlight">Boobalan D</span>
+            Hi, I'm <span className="hero-name-glow">Boobalan D</span>
           </h1>
           
-          {/* Subtitle with typing effect */}
+          {/* Typing Animation Subtitle */}
           <div className="hero-subtitle-container animate-fade-slide-up stagger-2">
-            <div className="hero-subtitle">
-              <span className={`${showCursor ? 'typing-cursor' : ''}`}>
+            <div className="hero-typing-text">
+              <span className="typing-text">
                 {displayText}
               </span>
+              {showCursor && <span className="typing-cursor">|</span>}
             </div>
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex justify-center mt-8 animate-fade-slide-up stagger-3">
-            <Button 
-              size="lg"
-              className="cta-primary px-8 py-4 text-lg font-medium"
-              onClick={() => scrollToSection("projects")}
-            >
-              View My Work
-            </Button>
+          <div className="hero-cta-container animate-fade-slide-up stagger-3">
+            <div className="cta-buttons-wrapper">
+              <Button 
+                size="lg"
+                className="cta-button cta-primary"
+                onClick={() => scrollToSection("projects")}
+              >
+                View My Work
+              </Button>
+              <Button 
+                size="lg"
+                className="cta-button cta-secondary"
+                onClick={() => scrollToSection("contact")}
+              >
+                Hire Me
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-fade-slide-up stagger-4">
+        {/* Scroll Indicator */}
+        <div className="scroll-indicator-container animate-fade-slide-up stagger-4">
           <div className="scroll-indicator">
-            <ChevronDown className="w-6 h-6 text-blue-400" />
+            <div className="scroll-circle">
+              <ChevronDown className="scroll-arrow" />
+            </div>
+            <p className="scroll-text">Scroll to explore</p>
           </div>
         </div>
       </div>

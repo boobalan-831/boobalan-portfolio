@@ -1,12 +1,11 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Download, Sun, Moon } from "lucide-react";
+import { Menu, X, Download } from "lucide-react";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,18 +13,6 @@ const Navigation = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    // Load theme preference from localStorage
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-      setIsDarkMode(false);
-      document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-      setIsDarkMode(true);
-      document.documentElement.removeAttribute('data-theme');
-    }
   }, []);
 
   const scrollToSection = (sectionId: string) => {
@@ -39,24 +26,11 @@ const Navigation = () => {
     console.log("Download Resume clicked");
   };
 
-  const toggleTheme = () => {
-    const newTheme = !isDarkMode;
-    setIsDarkMode(newTheme);
-    
-    if (newTheme) {
-      document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
-    }
-  };
-
   const navItems = ["Home", "About", "Skills", "Projects", "Services", "Certifications", "Contact"];
 
   return (
     <>
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      <nav className={`header fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
           ? "bg-slate-900/90 backdrop-blur-md shadow-lg border-b border-slate-700" 
           : "bg-slate-900/80 backdrop-blur-sm"
@@ -79,15 +53,6 @@ const Navigation = () => {
                   {item}
                 </button>
               ))}
-              
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className="theme-toggle w-10 h-10 rounded-full border border-slate-600 flex items-center justify-center text-gray-300 hover:text-blue-400 hover:border-blue-400 transition-all duration-300"
-                aria-label="Toggle Light/Dark Mode"
-              >
-                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
               
               {/* Download Resume Button */}
               <Button 
@@ -142,15 +107,6 @@ const Navigation = () => {
                 {item}
               </button>
             ))}
-            
-            {/* Mobile Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="flex items-center gap-3 py-4 text-xl text-gray-300 hover:text-blue-400 transition-all duration-300 border-b border-slate-700"
-            >
-              {isDarkMode ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
-              {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-            </button>
             
             <Button 
               className="resume-btn bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-white hover:to-white hover:text-blue-500 text-white mt-8 font-['Poppins'] font-medium flex items-center gap-2 justify-center rounded-full"
