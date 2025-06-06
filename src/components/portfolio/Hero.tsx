@@ -1,15 +1,15 @@
 
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { ChevronDown } from "lucide-react";
-import CloudBackground from "./CloudBackground";
 
 const Hero = () => {
   const [displayText, setDisplayText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
   const fullText = "Cloud Enthusiast | Full-Stack Developer | Problem Solver";
   const heroRef = useScrollReveal();
+  const particleCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Typing effect for subtitle
   useEffect(() => {
@@ -26,6 +26,83 @@ const Hero = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Particle Canvas Animation
+  useEffect(() => {
+    if (!particleCanvasRef.current) return;
+    
+    const canvas = particleCanvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resizeCanvas = () => {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    };
+    resizeCanvas();
+
+    let dots: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      opacity: number;
+      phase: number;
+    }> = [];
+
+    function initDots(count: number) {
+      const w = canvas.width;
+      const h = canvas.height;
+      dots = Array.from({ length: count }).map(() => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        opacity: 0,
+        phase: Math.random() * Math.PI * 2
+      }));
+    }
+
+    function animateDots() {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      
+      dots.forEach(dot => {
+        dot.x += dot.vx;
+        dot.y += dot.vy;
+        dot.phase += 0.02;
+        dot.opacity = (Math.sin(dot.phase) + 1) * 0.1; // 0→0.2
+        
+        // Bounce at edges
+        if (dot.x < 0 || dot.x > w) dot.vx *= -1;
+        if (dot.y < 0 || dot.y > h) dot.vy *= -1;
+        
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(79,179,255,${dot.opacity})`;
+        ctx.fill();
+      });
+      
+      requestAnimationFrame(animateDots);
+    }
+
+    const isMobile = window.innerWidth < 640;
+    initDots(isMobile ? 60 : 100);
+    animateDots();
+
+    const handleResize = () => {
+      resizeCanvas();
+      const isMobile = window.innerWidth < 640;
+      initDots(isMobile ? 60 : 100);
+    };
+    
+    window.addEventListener("resize", handleResize);
+    
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: "smooth" });
@@ -37,19 +114,23 @@ const Hero = () => {
       id="home"
       className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-br from-[#0a162a] to-[#071022] px-6"
     >
-      {/* Cloud Infrastructure Background */}
-      <CloudBackground />
+      {/* Particle Canvas Background */}
+      <canvas
+        ref={particleCanvasRef}
+        className="absolute inset-0 -z-20"
+        aria-hidden="true"
+      />
 
       {/* Floating Code Glyphs */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Desktop: 3 glyphs */}
-        <div className="floating-code animate-fade-in-out text-[#4fb3ff]/15 text-2xl absolute top-5 left-5 hidden sm:block font-mono">{`{ }`}</div>
-        <div className="floating-code animate-fade-in-out text-[#c0e8ff]/15 text-2xl absolute top-5 right-5 hidden sm:block font-mono">{`λ`}</div>
-        <div className="floating-code animate-fade-in-out text-[#0ea5e9]/15 text-2xl absolute bottom-5 right-5 hidden sm:block font-mono">{`</>`}</div>
+        <div className="floating-code animate-fade-in-out text-[#4fb3ff]/20 text-2xl absolute top-5 left-5 hidden sm:block">{`{ }`}</div>
+        <div className="floating-code animate-fade-in-out text-[#c0e8ff]/20 text-2xl absolute top-5 right-5 hidden sm:block">{`λ`}</div>
+        <div className="floating-code animate-fade-in-out text-[#0ea5e9]/20 text-2xl absolute bottom-5 right-5 hidden sm:block">{`</>`}</div>
         
         {/* Mobile: 2 glyphs */}
-        <div className="floating-code animate-fade-in-out text-[#4fb3ff]/15 text-xl absolute top-4 left-4 sm:hidden font-mono">{`{ }`}</div>
-        <div className="floating-code animate-fade-in-out text-[#0ea5e9]/15 text-xl absolute bottom-4 right-4 sm:hidden font-mono">{`</>`}</div>
+        <div className="floating-code animate-fade-in-out text-[#4fb3ff]/20 text-xl absolute top-4 left-4 sm:hidden">{`{ }`}</div>
+        <div className="floating-code animate-fade-in-out text-[#0ea5e9]/20 text-xl absolute bottom-4 right-4 sm:hidden">{`</>`}</div>
       </div>
 
       {/* Main Content Container */}
