@@ -34,13 +34,14 @@
   }
 }
 
-/* New Animation Keyframes */
+/* FadeInOut for floating code glyphs */
 @keyframes fadeInOut {
   0%   { opacity: 0; transform: translateY(10px); }
   50%  { opacity: 0.15; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-10px); }
 }
 
+/* Halo pulse behind profile */
 @keyframes haloPulse {
   0%   { transform: scale(0.95); }
   50%  { transform: scale(1.05); }
@@ -107,6 +108,7 @@
 
 .hero-cta-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(79, 179, 255, 0.3);
 }
 
 /* Profile photo hover effect (subtle) */
