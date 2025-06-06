@@ -34,17 +34,11 @@
   }
 }
 
-/* New Animation Keyframes */
-@keyframes fadeInOut {
-  0%   { opacity: 0; transform: translateY(10px); }
-  50%  { opacity: 0.15; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-10px); }
-}
-
+/* Halo pulse animation */
 @keyframes haloPulse {
-  0%   { transform: scale(0.95); }
-  50%  { transform: scale(1.05); }
-  100% { transform: scale(0.95); }
+  0%   { transform: scale(0.95); opacity: 0.3; }
+  50%  { transform: scale(1.05); opacity: 0.5; }
+  100% { transform: scale(0.95); opacity: 0.3; }
 }
 
 /* Utility classes */
@@ -68,45 +62,35 @@
   animation: bounceSlow 2s infinite;
 }
 
-/* New Animation Classes */
-.animate-fade-in-out {
-  animation: fadeInOut 7s ease-in-out infinite alternate;
+.animate-halo-pulse {
+  animation: haloPulse 6s ease-in-out infinite;
   will-change: transform, opacity;
 }
 
-.animate-halo-pulse {
-  animation: haloPulse 6s ease-in-out infinite;
-  will-change: transform;
-}
-
-/* Floating Code Glyphs */
-.floating-code {
-  position: absolute;
-  font-family: monospace;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .floating-code {
-    animation-duration: 9s; /* Slower on mobile */
-  }
-  
-  /* Reduce halo size on mobile */
-  .animate-halo-pulse svg {
-    width: 140px !important;
-    height: 140px !important;
-  }
-}
-
-/* Smooth transitions for interactive elements */
+/* Enhanced CTA button hover effects */
 .hero-cta-button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s;
+}
+
+.hero-cta-button:hover::before {
+  left: 100%;
 }
 
 .hero-cta-button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.05);
 }
 
 /* Profile photo hover effect (subtle) */
@@ -116,4 +100,35 @@
 
 .hero-profile-photo:hover {
   transform: scale(1.02);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .animate-halo-pulse svg {
+    width: 140px !important;
+    height: 140px !important;
+  }
+  
+  .hero-cta-button:hover {
+    transform: translateY(-1px) scale(1.02);
+  }
+}
+
+/* Backdrop blur support */
+@supports (backdrop-filter: blur(10px)) {
+  .backdrop-blur-hero {
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* Performance optimizations */
+.hero-cta-button,
+.hero-profile-photo,
+.animate-halo-pulse {
+  will-change: transform;
+}
+
+/* Text shadow for better readability over animated background */
+.hero-title {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 20px rgba(0,194,255,0.1);
 }
