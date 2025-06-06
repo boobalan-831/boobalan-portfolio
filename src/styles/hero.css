@@ -34,29 +34,21 @@
   }
 }
 
-/* New Tech Animation Keyframes */
-@keyframes ringRotateSlow {
-  0%   { transform: rotate(0deg); }
-  50%  { transform: rotate(180deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes ringPulse {
-  0%   { opacity: 0.2; transform: scale(0.9); }
-  50%  { opacity: 0.25; transform: scale(1.05); }
-  100% { opacity: 0.2; transform: scale(0.9); }
-}
-
+/* New Animation Keyframes */
 @keyframes fadeInOut {
   0%   { opacity: 0; transform: translateY(10px); }
-  50%  { opacity: 0.15; transform: translateY(0); }
+  50%  { opacity: 0.12; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-10px); }
 }
 
-@keyframes fadeInOutSlower {
-  0%   { opacity: 0; transform: translateY(10px); }
-  50%  { opacity: 0.15; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-10px); }
+@keyframes haloPulse {
+  0%, 100% { transform: scale(0.95); }
+  50%      { transform: scale(1.0); }
+}
+
+@keyframes binaryFlicker {
+  0%, 50% { opacity: 0.1; }
+  25%, 75% { opacity: 0.15; }
 }
 
 /* Utility classes */
@@ -80,38 +72,51 @@
   animation: bounceSlow 2s infinite;
 }
 
-/* New Tech Animation Classes */
-.animate-ring-rotate-slow {
-  animation: ringRotateSlow 20s linear infinite;
+/* New Animation Classes */
+.animate-fade-in-out {
+  animation: fadeInOut 7s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+.animate-halo-pulse {
+  animation: haloPulse 6s ease-in-out infinite;
   will-change: transform;
 }
 
-.animate-ring-pulse {
-  animation: ringPulse 5s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
+/* Floating Code Glyphs */
 .floating-code {
   position: absolute;
-  animation: fadeInOut 6s ease-in-out infinite alternate;
   font-family: monospace;
   pointer-events: none;
-  will-change: transform, opacity;
+  user-select: none;
 }
 
-.animate-fade-slower {
-  animation: fadeInOutSlower 8s ease-in-out infinite alternate;
+/* Glowing Halo Behind Photo */
+.glow-halo {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  z-index: -10;
 }
 
-.animate-fade-normal {
-  animation: fadeInOut 6s ease-in-out infinite alternate;
-}
-
-.animate-particle-canvas {
+/* Data Stream Overlay */
+.data-stream {
   position: absolute;
-  inset: 0;
-  z-index: -20;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  user-select: none;
 }
+
+.binary-text {
+  font-family: monospace;
+  font-size: 12px;
+  color: rgba(79, 179, 255, 0.1);
+  animation: binaryFlicker 1.2s ease-in-out infinite;
+}
+
+.data-stream .binary-text:nth-child(1) { animation-delay: 0s; }
+.data-stream .binary-text:nth-child(2) { animation-delay: 0.4s; }
+.data-stream .binary-text:nth-child(3) { animation-delay: 0.8s; }
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
@@ -123,6 +128,11 @@
   .hero-profile-photo {
     width: 144px;
     height: 144px;
+  }
+  
+  /* Hide data streams on mobile */
+  .data-stream {
+    display: none;
   }
 }
 

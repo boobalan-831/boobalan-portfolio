@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState, useRef } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { ChevronDown } from "lucide-react";
-import * as THREE from "three";
 
 const Hero = () => {
   const [displayText, setDisplayText] = useState("");
@@ -27,62 +26,102 @@ const Hero = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Three.js particle network setup
+  // 2D Animated Particle Grid
   useEffect(() => {
     if (!canvasRef.current) return;
     
     const canvas = canvasRef.current;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    camera.position.z = 2;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    // Particle geometry - responsive count and size
-    const isMobile = window.innerWidth < 640;
-    const count = isMobile ? 100 : 200;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(count * 3);
-    
-    for (let i = 0; i < count * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 4;
-    }
-    
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    const material = new THREE.PointsMaterial({ 
-      color: 0x4fb3ff, 
-      size: isMobile ? 0.02 : 0.03, 
-      transparent: true, 
-      opacity: isMobile ? 0.15 : 0.3 
-    });
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
-
-    // Animation loop
-    const animate = () => {
-      requestAnimationFrame(animate);
-      particles.rotation.y += 0.0005;
-      particles.rotation.x += 0.0003;
-      renderer.render(scene, camera);
+    const resizeCanvas = () => {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
     };
-    animate();
+    resizeCanvas();
+
+    // Grid configuration
+    const isMobile = window.innerWidth < 640;
+    const gridCols = isMobile ? 10 : 20;
+    const gridRows = isMobile ? 8 : 10;
+    const nodeSize = isMobile ? 1.5 : 2;
+    const waveAmplitude = isMobile ? 3 : 5;
+    const nodeOpacity = isMobile ? 0.2 : 0.3;
+    const lineOpacity = isMobile ? 0.1 : 0.15;
+
+    const nodes = [];
+    for (let x = 0; x < gridCols; x++) {
+      for (let y = 0; y < gridRows; y++) {
+        nodes.push({
+          x: (canvas.width / (gridCols - 1)) * x,
+          y: (canvas.height / (gridRows - 1)) * y,
+          originalY: (canvas.height / (gridRows - 1)) * y,
+          gridX: x,
+          gridY: y
+        });
+      }
+    }
+
+    let animationId;
+    let startTime = performance.now();
+
+    const animate = (currentTime) => {
+      const elapsed = (currentTime - startTime) / 1000; // Convert to seconds
+      
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Update node positions with wave motion
+      nodes.forEach(node => {
+        node.y = node.originalY + Math.sin(elapsed + node.gridX * 0.5 + node.gridY * 0.7) * waveAmplitude;
+      });
+
+      // Draw connecting lines
+      ctx.strokeStyle = `rgba(79, 179, 255, ${lineOpacity})`;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      
+      nodes.forEach(node => {
+        // Connect to right neighbor
+        const rightNeighbor = nodes.find(n => n.gridX === node.gridX + 1 && n.gridY === node.gridY);
+        if (rightNeighbor) {
+          ctx.moveTo(node.x, node.y);
+          ctx.lineTo(rightNeighbor.x, rightNeighbor.y);
+        }
+        
+        // Connect to bottom neighbor
+        const bottomNeighbor = nodes.find(n => n.gridX === node.gridX && n.gridY === node.gridY + 1);
+        if (bottomNeighbor) {
+          ctx.moveTo(node.x, node.y);
+          ctx.lineTo(bottomNeighbor.x, bottomNeighbor.y);
+        }
+      });
+      ctx.stroke();
+
+      // Draw nodes
+      ctx.fillStyle = `rgba(79, 179, 255, ${nodeOpacity})`;
+      nodes.forEach(node => {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, nodeSize, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate(performance.now());
 
     // Handle resize
     const handleResize = () => {
-      if (!canvasRef.current) return;
-      const width = canvasRef.current.clientWidth;
-      const height = canvasRef.current.clientHeight;
-      renderer.setSize(width, height);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
+      resizeCanvas();
     };
     
     window.addEventListener("resize", handleResize);
     
     return () => {
       window.removeEventListener("resize", handleResize);
-      renderer.dispose();
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
     };
   }, []);
 
@@ -97,33 +136,41 @@ const Hero = () => {
       id="home"
       className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-br from-[#0a162a] to-[#071022] px-6"
     >
-      {/* Three.js Particle Network Canvas */}
+      {/* 2D Animated Particle Grid Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 -z-20 animate-particle-canvas"
+        className="absolute inset-0 -z-20"
         aria-hidden="true"
       />
 
-      {/* Floating Code Snippets */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Desktop: 3 snippets, Mobile: 2 snippets */}
-        <div className="floating-code top-8 left-4 text-[#4fb3ff]/20 text-2xl">{`{ }`}</div>
-        <div className="floating-code top-1/3 right-20 text-[#0ea5e9]/20 text-2xl hidden sm:block">{`</>`}</div>
-        <div className="floating-code bottom-12 left-10 sm:left-10 sm:bottom-12 bottom-16 left-1/4 text-[#c0e8ff]/20 text-xl sm:text-2xl animate-fade-slower sm:animate-fade-normal">{`λ`}</div>
+      {/* Data Stream Overlay - Desktop Only */}
+      <div className="absolute inset-0 pointer-events-none hidden sm:block">
+        <div className="data-stream top-4 left-4">
+          <span className="binary-text">0101</span>
+          <span className="binary-text">1010</span>
+          <span className="binary-text">0011</span>
+        </div>
+        <div className="data-stream bottom-4 right-4">
+          <span className="binary-text">1100</span>
+          <span className="binary-text">0110</span>
+          <span className="binary-text">1001</span>
+        </div>
       </div>
 
-      {/* Minimal Glow Overlay */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10">
-        <div className="w-[400px] h-[400px] rounded-full bg-gradient-to-br from-[#0a162a] to-[#071022] opacity-20 animate-pulse-slow"></div>
+      {/* Floating Code Glyphs */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Desktop: 2 glyphs, Mobile: 2 glyphs but different positions */}
+        <div className="floating-code top-8 left-4 text-[#4fb3ff]/20 text-2xl animate-fade-in-out">{`{ }`}</div>
+        <div className="floating-code bottom-8 right-4 text-[#0ea5e9]/20 text-2xl animate-fade-in-out hidden sm:block">{`</>`}</div>
+        <div className="floating-code bottom-16 left-1/4 text-[#c0e8ff]/20 text-xl animate-fade-in-out sm:hidden">{`λ`}</div>
       </div>
 
       {/* Main Content Container */}
       <div className="container mx-auto text-center relative z-10 max-w-2xl">
-        {/* Profile Photo with Parallax Rings */}
+        {/* Profile Photo with Glowing Halo */}
         <div className="relative w-40 h-40 sm:w-40 sm:h-40 w-36 h-36 mb-8 sm:mb-8 mb-6 mx-auto">
-          {/* Parallax Rings - Desktop: 2 rings, Mobile: 1 ring */}
-          <div className="absolute inset-0 rounded-full border-2 border-[#4fb3ff]/30 animate-ring-pulse"></div>
-          <div className="absolute inset-0 rounded-full border-2 border-[#0ea5e9]/20 animate-ring-rotate-slow hidden sm:block"></div>
+          {/* Subtle Glowing Halo */}
+          <div className="glow-halo absolute inset-0 rounded-full animate-halo-pulse"></div>
           
           {/* Photo */}
           <div className="relative w-full h-full rounded-full border-4 border-[#4fb3ff] overflow-hidden hero-profile-photo">
@@ -171,12 +218,10 @@ const Hero = () => {
           </Button>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-[#c0e8ff]/60 cursor-pointer" onClick={() => scrollToSection("about")}>
-          <div className="w-12 h-12 border-2 border-[#4fb3ff] rounded-full flex items-center justify-center mb-2 animate-bounce-slow">
-            <ChevronDown className="w-5 h-5 text-[#4fb3ff]" />
-          </div>
-          <p className="text-sm opacity-80">Scroll to explore</p>
+        {/* Scroll Indicator - Fixed Alignment */}
+        <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 text-center cursor-pointer" onClick={() => scrollToSection("about")}>
+          <ChevronDown className="w-6 h-6 text-[#4fb3ff] animate-bounce-slow mx-auto mb-2" />
+          <p className="text-sm text-[#c0e8ff]/60">Scroll to explore</p>
         </div>
       </div>
     </section>
