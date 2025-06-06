@@ -1,28 +1,70 @@
 
-import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+// export default Hero;
+import { useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 
-const Hero = () => {
-  const [displayText, setDisplayText] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
-  const fullText = "Cloud Enthusiast | Full-Stack Developer | Problem Solver";
-  const heroRef = useScrollReveal();
+export default function HeroSection() {
+  const canvasRef = useRef(null);
+  const animationRef = useRef(null);
+  const nodes = useRef([]);
 
   useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      if (index <= fullText.length) {
-        setDisplayText(fullText.slice(0, index));
-        index++;
-      } else {
-        clearInterval(timer);
-        setShowCursor(false);
-      }
-    }, 80);
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    return () => clearInterval(timer);
+    let animationFrameId;
+
+    const createNodes = () => {
+      nodes.current = Array.from({ length: 20 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5,
+        radius: Math.random() * 2 + 2,
+      }));
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < nodes.current.length; i++) {
+        const n = nodes.current[i];
+
+        // Move
+        n.x += n.dx;
+        n.y += n.dy;
+
+        if (n.x < 0 || n.x > canvas.width) n.dx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.dy *= -1;
+
+        // Draw node
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(0, 194, 255, 0.3)";
+        ctx.fill();
+
+        // Draw connections
+        for (let j = i + 1; j < nodes.current.length; j++) {
+          const m = nodes.current[j];
+          const dist = Math.hypot(n.x - m.x, n.y - m.y);
+          if (dist < 150) {
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(m.x, m.y);
+            ctx.strokeStyle = "rgba(0, 255, 255, 0.1)";
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    createNodes();
+    draw();
+
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
@@ -31,67 +73,48 @@ const Hero = () => {
   };
 
   return (
-    <section ref={heroRef} id="home" className="hero min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Floating Tech Icons Background */}
-      <div className="tech-icons-container absolute inset-0 pointer-events-none">
-        <div className="tech-icon tech-icon-1" style={{ left: '10%', animationDuration: '6s' }}>{"{ }"}</div>
-        <div className="tech-icon tech-icon-2" style={{ left: '20%', animationDuration: '8s' }}>{"</>"}</div>
-        <div className="tech-icon tech-icon-3" style={{ left: '80%', animationDuration: '7s' }}>{"Σ"}</div>
-        <div className="tech-icon tech-icon-4" style={{ left: '90%', animationDuration: '5s' }}>{"⚙"}</div>
-        <div className="tech-icon tech-icon-5" style={{ left: '70%', animationDuration: '6.5s' }}>{"λ"}</div>
-      </div>
+    <section className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-gradient-to-br from-[#010c20] to-[#07182e] text-white">
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+      ></canvas>
 
-      <div className="container max-w-4xl mx-auto px-6 relative z-10 text-center">
-        {/* Profile Picture */}
-        <div className="hero-profile animate-scale-in mb-8">
-          <div className="w-48 h-48 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 p-1 shadow-xl hover:shadow-blue-500/30 transition-all duration-300 group hover:scale-105">
-            <div className="w-full h-full rounded-full overflow-hidden">
-              <img 
-                src="https://postimage.me/images/2025/05/28/4333829_applicantPhotoFile.jpg" 
-                alt="Boobalan D - Full Stack Developer"
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-          </div>
+      <div className="relative z-10 flex flex-col items-center px-4 text-center">
+        <img
+          src="https://postimage.me/images/2025/06/06/1684570080338.jpg"
+          alt="Boobalan D"
+          className="w-40 h-40 rounded-full border-4 border-cyan-500 shadow-lg hover:shadow-cyan-400/40 transition duration-500"
+        />
+        <h1 className="text-4xl md:text-5xl font-bold mt-6">
+          Hi, I'm <span className="text-cyan-400 hover:text-cyan-300 transition">Boobalan D</span>
+        </h1>
+        <p className="mt-4 px-6 py-3 bg-[#0b1b30] rounded text-lg font-mono text-cyan-100 shadow-lg hover:shadow-cyan-400/40 transition duration-500">
+          Cloud Enthusiast | Full-Stack Developer | Problem Solver
+        </p>
+
+        <div className="flex gap-4 mt-8">
+          <button
+            className="cta px-6 py-3 bg-cyan-500 text-white font-semibold rounded-full hover:scale-105 hover:shadow-lg transition"
+            onClick={() => scrollToSection("projects")}
+          >
+            View My Work
+          </button>
+          <button
+            className="cta px-6 py-3 border border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-black transition"
+            onClick={() => scrollToSection("contact")}
+          >
+            Hire Me
+          </button>
         </div>
 
-        {/* Hero Content */}
-        <div className="text-center space-y-6">
-          {/* Main Heading */}
-          <h1 className="hero-title animate-fade-slide-up stagger-1">
-            Hi, I'm <span className="hero-name-highlight">Boobalan D</span>
-          </h1>
-          
-          {/* Subtitle with typing effect */}
-          <div className="hero-subtitle-container animate-fade-slide-up stagger-2">
-            <div className="hero-subtitle">
-              <span className={`${showCursor ? 'typing-cursor' : ''}`}>
-                {displayText}
-              </span>
-            </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex justify-center mt-8 animate-fade-slide-up stagger-3">
-            <Button 
-              size="lg"
-              className="cta-primary px-8 py-4 text-lg font-medium"
-              onClick={() => scrollToSection("projects")}
-            >
-              View My Work
-            </Button>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-fade-slide-up stagger-4">
-          <div className="scroll-indicator">
-            <ChevronDown className="w-6 h-6 text-blue-400" />
-          </div>
+        <div
+          className="mt-12 animate-bounce flex flex-col items-center cursor-pointer"
+          onClick={() => scrollToSection("about")}
+        >
+          <ChevronDown className="w-6 h-6 text-cyan-300" />
+          <span className="text-sm text-gray-400 mt-1">Scroll to explore</span>
         </div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}
