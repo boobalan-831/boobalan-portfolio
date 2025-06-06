@@ -1,15 +1,23 @@
 
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { ChevronDown } from "lucide-react";
-import CloudBackground from "./CloudBackground";
 
 const Hero = () => {
   const [displayText, setDisplayText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
   const fullText = "Cloud Enthusiast | Full-Stack Developer | Problem Solver";
   const heroRef = useScrollReveal();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const nodes = useRef<Array<{
+    x: number;
+    y: number;
+    dx: number;
+    dy: number;
+    radius: number;
+  }>>([]);
 
   // Typing effect for subtitle
   useEffect(() => {
@@ -26,6 +34,84 @@ const Hero = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Canvas animation
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resizeCanvas();
+
+    const createNodes = () => {
+      nodes.current = Array.from({ length: 20 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5,
+        radius: Math.random() * 2 + 2,
+      }));
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < nodes.current.length; i++) {
+        const n = nodes.current[i];
+
+        // Move
+        n.x += n.dx;
+        n.y += n.dy;
+
+        if (n.x < 0 || n.x > canvas.width) n.dx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.dy *= -1;
+
+        // Draw node
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(0, 194, 255, 0.3)";
+        ctx.fill();
+
+        // Draw connections
+        for (let j = i + 1; j < nodes.current.length; j++) {
+          const m = nodes.current[j];
+          const dist = Math.hypot(n.x - m.x, n.y - m.y);
+          if (dist < 150) {
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(m.x, m.y);
+            ctx.strokeStyle = "rgba(0, 255, 255, 0.1)";
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationRef.current = requestAnimationFrame(draw);
+    };
+
+    createNodes();
+    draw();
+
+    const handleResize = () => {
+      resizeCanvas();
+      createNodes();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: "smooth" });
@@ -37,8 +123,12 @@ const Hero = () => {
       id="home"
       className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-br from-[#010c20] via-[#0a162a] to-[#07182e] px-6"
     >
-      {/* Cloud Infrastructure Background */}
-      <CloudBackground />
+      {/* Canvas Background */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full -z-20 pointer-events-none"
+        aria-hidden="true"
+      />
 
       {/* Main Content Container */}
       <div className="container mx-auto text-center relative z-10 max-w-2xl">
