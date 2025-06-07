@@ -44,7 +44,10 @@ const Navigation = () => {
   const navItems = [
     { name: "Home", id: "home" },
     { name: "About", id: "about" },
+    { name: "Skills", id: "skills" },
     { name: "Projects", id: "projects" },
+    { name: "Services", id: "services" },
+    { name: "Certifications", id: "certifications" },
     { name: "Contact", id: "contact" }
   ];
 
@@ -58,7 +61,7 @@ const Navigation = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <div className="nav-logo text-2xl font-bold font-jetbrains text-gray-800">
+            <div className="nav-logo text-2xl font-bold font-sans text-gray-800">
               Boobalan D
             </div>
             
