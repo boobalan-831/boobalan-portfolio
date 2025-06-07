@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Download } from "lucide-react";
@@ -28,7 +29,7 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className={`header fixed top-0 w-full z-50 transition-all duration-300 ${
+      <nav className={`header fixed top-0 w-full z-50 transition-all duration-300 pr-8 ${
         isScrolled 
           ? "bg-slate-900/90 backdrop-blur-md shadow-lg border-b border-slate-700" 
           : "bg-slate-900/80 backdrop-blur-sm"
@@ -36,30 +37,37 @@ const Navigation = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <div className="nav-logo text-2xl font-bold font-['Poppins'] bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <div className="nav-logo text-2xl font-bold font-jetbrains bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               Boobalan D
             </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(item.toLowerCase())}
-                  className="nav-link-enhanced text-gray-300 hover:text-blue-400 transition-colors duration-300 relative font-['Poppins'] font-medium"
-                >
-                  {item}
-                </button>
-              ))}
+            <div className="hidden md:flex items-center ml-auto">
+              <ul className="flex items-center space-x-8">
+                {navItems.map((item) => (
+                  <li key={item}>
+                    <button
+                      onClick={() => scrollToSection(item.toLowerCase())}
+                      className={`nav-link-enhanced transition-colors duration-300 relative font-jetbrains font-medium ${
+                        isScrolled ? "text-gray-300 hover:text-blue-400" : "text-white hover:text-cyan-300"
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  </li>
+                ))}
+              </ul>
               
               {/* Download Resume Button */}
-              <Button 
-                className="resume-btn bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-white hover:to-white hover:text-blue-500 text-white font-['Poppins'] font-medium items-center gap-2 px-6 py-2 rounded-full transition-all duration-300 border border-transparent hover:border-blue-500"
-                onClick={downloadResume}
+              <a 
+                href="https://drive.google.com/file/d/1ZqqYr4PrtxnsNGxfgKV2Xx6HV6z9oVyF/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="resume-btn bg-gradient-to-r from-[#ff4e50] to-[#f9d423] text-white font-jetbrains font-medium flex items-center gap-2 px-6 py-2 ml-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-2xl"
               >
                 <Download className="w-4 h-4" />
-                Download Resume
-              </Button>
+                Download CV
+              </a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -97,7 +105,7 @@ const Navigation = () => {
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className={`text-left py-4 text-xl text-gray-300 hover:text-blue-400 transition-all duration-300 border-b border-slate-700 nav-drawer-item ${
+                className={`text-left py-4 text-xl text-gray-300 hover:text-blue-400 transition-all duration-300 border-b border-slate-700 nav-drawer-item font-jetbrains ${
                   isMobileMenuOpen ? 'animate-slide-in-right' : ''
                 }`}
                 style={{ animationDelay: `${index * 100}ms` }}
@@ -106,13 +114,15 @@ const Navigation = () => {
               </button>
             ))}
             
-            <Button 
-              className="resume-btn bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-white hover:to-white hover:text-blue-500 text-white mt-8 font-['Poppins'] font-medium flex items-center gap-2 justify-center rounded-full"
-              onClick={downloadResume}
+            <a 
+              href="https://drive.google.com/file/d/1ZqqYr4PrtxnsNGxfgKV2Xx6HV6z9oVyF/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="resume-btn bg-gradient-to-r from-[#ff4e50] to-[#f9d423] text-white mt-8 font-jetbrains font-medium flex items-center gap-2 justify-center rounded-full px-6 py-3 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
             >
               <Download className="w-4 h-4" />
-              Download Resume
-            </Button>
+              Download CV
+            </a>
           </div>
         </div>
       </div>
