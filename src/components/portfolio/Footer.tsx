@@ -1,4 +1,3 @@
-
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Mail, MapPin, Phone, Github, Linkedin, ChevronUp } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -23,7 +22,7 @@ const Footer = () => {
 
   const resourceLinks = [
     "Home", "About", "Skills", "Projects", 
-    "Services", "Certifications", "Contact", "Blog"
+    "Services", "Certifications", "Contact"
   ];
 
   const socialLinks = [
@@ -59,7 +58,8 @@ const Footer = () => {
   ];
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId.toLowerCase());
+    const targetId = sectionId.toLowerCase() === "home" ? "home" : sectionId.toLowerCase();
+    const element = document.getElementById(targetId);
     element?.scrollIntoView({ behavior: "smooth" });
   };
 

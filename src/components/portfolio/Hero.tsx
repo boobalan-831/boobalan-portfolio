@@ -1,7 +1,7 @@
 
-// export default Hero;
 import { useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
+import "../styles/hero-section.css";
 
 export default function HeroSection() {
   const canvasRef = useRef(null);
@@ -73,34 +73,34 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-gradient-to-br from-[#010c20] to-[#07182e] text-white">
+    <section id="home" className="hero-section">
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+        className="hero-canvas"
       ></canvas>
 
-      <div className="relative z-10 flex flex-col items-center px-4 text-center">
+      <div className="hero-content">
         <img
           src="https://postimage.me/images/2025/06/06/1684570080338.jpg"
           alt="Boobalan D"
-          className="w-40 h-40 rounded-full border-4 border-cyan-500 shadow-lg hover:shadow-cyan-400/40 transition duration-500"
+          className="hero-profile-photo"
         />
-        <h1 className="text-4xl md:text-5xl font-bold mt-6">
-          Hi, I'm <span className="text-cyan-400 hover:text-cyan-300 transition">Boobalan D</span>
+        <h1 className="hero-title">
+          Hi, I'm <span className="hero-name-highlight">Boobalan D</span>
         </h1>
-        <p className="mt-4 px-6 py-3 bg-[#0b1b30] rounded text-lg font-mono text-cyan-100 shadow-lg hover:shadow-cyan-400/40 transition duration-500">
+        <p className="hero-subtitle">
           Cloud Enthusiast | Full-Stack Developer | Problem Solver
         </p>
 
-        <div className="flex gap-4 mt-8">
+        <div className="hero-buttons">
           <button
-            className="cta px-6 py-3 bg-cyan-500 text-white font-semibold rounded-full hover:scale-105 hover:shadow-lg transition"
+            className="hero-cta hero-cta-primary"
             onClick={() => scrollToSection("projects")}
           >
             View My Work
           </button>
           <button
-            className="cta px-6 py-3 border border-cyan-400 text-cyan-400 font-semibold rounded-full hover:bg-cyan-400 hover:text-black transition"
+            className="hero-cta hero-cta-secondary"
             onClick={() => scrollToSection("contact")}
           >
             Hire Me
@@ -108,11 +108,11 @@ export default function HeroSection() {
         </div>
 
         <div
-          className="mt-12 animate-bounce flex flex-col items-center cursor-pointer"
+          className="hero-scroll-indicator"
           onClick={() => scrollToSection("about")}
         >
           <ChevronDown className="w-6 h-6 text-cyan-300" />
-          <span className="text-sm text-gray-400 mt-1">Scroll to explore</span>
+          <span className="hero-scroll-text">Scroll to explore</span>
         </div>
       </div>
     </section>

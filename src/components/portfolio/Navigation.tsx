@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Download } from "lucide-react";
@@ -22,8 +21,7 @@ const Navigation = () => {
   };
 
   const downloadResume = () => {
-    // Add your resume download logic here
-    console.log("Download Resume clicked");
+    window.open("https://drive.google.com/file/d/1ZqqYr4PrtxnsNGxfgKV2Xx6HV6z9oVyF/view?usp=sharing", "_blank");
   };
 
   const navItems = ["Home", "About", "Skills", "Projects", "Services", "Certifications", "Contact"];
