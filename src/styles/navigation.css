@@ -2,23 +2,45 @@
 /* Enhanced Navigation Styles */
 .nav-link-enhanced {
   position: relative;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-.nav-link-enhanced:hover {
-  transform: translateY(-1px);
+.nav-link-enhanced::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link-enhanced:hover::after {
+  width: 100%;
 }
 
 /* Legacy nav link support */
 .nav-link {
   position: relative;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-.nav-link:hover {
-  transform: translateY(-1px);
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }
 
 /* Hamburger Menu Animation */
@@ -37,29 +59,13 @@
   animation: slideInDrawer 0.4s ease-out forwards;
 }
 
-@keyframes slideInDrawer {
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
 /* Focus States for Accessibility */
 .nav-link-enhanced:focus {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--primary-blue);
   outline-offset: 2px;
 }
 
 button:focus {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--primary-blue);
   outline-offset: 2px;
-}
-
-/* Resume button hover effects */
-.resume-btn {
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-}
-
-.resume-btn:hover {
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
 }
