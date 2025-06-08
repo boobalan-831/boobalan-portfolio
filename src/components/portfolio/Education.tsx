@@ -1,6 +1,6 @@
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, Calendar, MapPin, Award } from "lucide-react";
+import { GraduationCap, Calendar, MapPin, Award, BookOpen, Star } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const Education = () => {
@@ -20,7 +20,8 @@ const Education = () => {
         "Software Engineering",
         "Database Management",
         "Web Development"
-      ]
+      ],
+      color: "from-emerald-500 to-teal-600"
     },
     {
       degree: "Higher Secondary Education (12th)",
@@ -35,7 +36,8 @@ const Education = () => {
         "Physics", 
         "Chemistry",
         "Computer Science"
-      ]
+      ],
+      color: "from-blue-500 to-indigo-600"
     },
     {
       degree: "Secondary Education (10th)",
@@ -50,149 +52,181 @@ const Education = () => {
         "Science",
         "English",
         "Social Studies"
-      ]
+      ],
+      color: "from-purple-500 to-pink-600"
     }
   ];
 
-  const getStatusColor = (status: string) => {
-    return status === "Pursuing" 
-      ? "text-blue-400 bg-blue-500/20 border-blue-500/30"
-      : "text-green-400 bg-green-500/20 border-green-500/30";
-  };
-
   return (
-    <section id="education" className="relative py-32 overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800/50 to-slate-900">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+    <section id="education" className="relative min-h-screen bg-slate-900 overflow-hidden">
+      {/* Modern Geometric Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-cyan-400/20 to-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-pink-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-emerald-400/10 to-teal-600/10 rounded-full blur-2xl animate-pulse delay-500"></div>
+        
+        {/* Geometric Shapes */}
+        <div className="absolute top-32 right-1/4 w-16 h-16 border-2 border-cyan-400/30 rotate-45 animate-spin-slow"></div>
+        <div className="absolute bottom-32 left-1/4 w-12 h-12 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rotate-12 animate-bounce-slow"></div>
       </div>
 
-      <div className="container relative mx-auto px-6" ref={sectionRef}>
-        {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-full px-6 py-2 mb-6">
-            <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-slate-400 tracking-wider uppercase">Academic Journey</span>
+      <div className="container relative mx-auto px-6 py-20" ref={sectionRef}>
+        {/* Modern Header Design */}
+        <div className="text-center mb-24">
+          <div className="inline-flex items-center gap-3 mb-8">
+            <div className="p-3 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl shadow-lg">
+              <BookOpen className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-cyan-400 font-semibold text-lg tracking-wider uppercase">Academic Excellence</span>
           </div>
           
-          <h2 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-7xl md:text-8xl font-black mb-8 bg-gradient-to-r from-white via-cyan-200 to-blue-300 bg-clip-text text-transparent leading-none">
             Education
-          </h2>
+          </h1>
           
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Building a strong foundation through continuous learning and academic excellence
+          <p className="text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-light">
+            A journey of continuous learning and academic achievements that shaped my technical expertise
           </p>
-          
-          <div className="flex justify-center mt-8">
-            <div className="w-32 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent rounded-full"></div>
-          </div>
         </div>
 
-        {/* Education Timeline */}
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-cyan-500 to-purple-500 transform md:-translate-x-1/2"></div>
-            
-            {educationData.map((edu, index) => (
-              <div 
-                key={edu.degree}
-                className={`relative flex items-center mb-16 ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                {/* Timeline Node */}
-                <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full border-4 border-slate-900 transform md:-translate-x-1/2 z-10">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-pulse opacity-75"></div>
-                </div>
-
-                {/* Content Card */}
-                <Card className={`relative ml-20 md:ml-0 md:w-5/12 ${
-                  index % 2 === 0 ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'
-                } bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-2 animate-fade-in`}
-                style={{ animationDelay: `${index * 200}ms` }}
-                >
-                  <CardContent className="p-8">
-                    {/* Status Badge */}
-                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border mb-4 ${getStatusColor(edu.status)}`}>
-                      <div className="w-2 h-2 rounded-full bg-current animate-pulse"></div>
-                      {edu.status}
-                    </div>
-
-                    {/* Institution and Location */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-xl font-bold text-white mb-2">{edu.degree}</h3>
-                        <div className="flex items-center gap-2 text-blue-400 mb-1">
-                          <GraduationCap className="w-4 h-4" />
-                          <span className="font-medium">{edu.institution}</span>
+        {/* Education Cards Grid */}
+        <div className="grid gap-12 max-w-6xl mx-auto">
+          {educationData.map((edu, index) => (
+            <div 
+              key={edu.degree}
+              className={`group relative transform transition-all duration-700 hover:scale-105 ${
+                index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
+              }`}
+              style={{ animationDelay: `${index * 300}ms` }}
+            >
+              {/* Floating Card Design */}
+              <Card className="relative bg-gradient-to-br from-slate-800/60 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-3xl overflow-hidden shadow-2xl hover:shadow-cyan-500/20 transition-all duration-500">
+                {/* Gradient Accent */}
+                <div className={`absolute top-0 left-0 right-0 h-2 bg-gradient-to-r ${edu.color}`}></div>
+                
+                {/* Floating Elements */}
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-cyan-400/10 to-blue-600/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
+                
+                <CardContent className="p-10">
+                  <div className="flex flex-col lg:flex-row items-start gap-8">
+                    {/* Left Content */}
+                    <div className="flex-1 space-y-6">
+                      {/* Status & Institution */}
+                      <div className="flex items-center justify-between">
+                        <div className={`px-4 py-2 rounded-full text-sm font-semibold ${
+                          edu.status === "Pursuing" 
+                            ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                            : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                        }`}>
+                          <div className="flex items-center gap-2">
+                            <div className={`w-2 h-2 rounded-full animate-pulse ${
+                              edu.status === "Pursuing" ? "bg-emerald-400" : "bg-blue-400"
+                            }`}></div>
+                            {edu.status}
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2 text-slate-400 text-sm">
-                          <MapPin className="w-3 h-3" />
+                        
+                        <div className="flex items-center gap-3 text-slate-400">
+                          <Calendar className="w-5 h-5" />
+                          <span className="font-medium">{edu.duration}</span>
+                        </div>
+                      </div>
+
+                      {/* Degree Title */}
+                      <div>
+                        <h3 className="text-3xl font-bold text-white mb-3 leading-tight">
+                          {edu.degree}
+                        </h3>
+                        <div className="flex items-center gap-3 text-cyan-400 mb-2">
+                          <GraduationCap className="w-5 h-5" />
+                          <span className="text-lg font-semibold">{edu.institution}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-slate-400">
+                          <MapPin className="w-4 h-4" />
                           <span>{edu.location}</span>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Duration and Grade */}
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex items-center gap-2 text-slate-300">
-                        <Calendar className="w-4 h-4" />
-                        <span className="text-sm">{edu.duration}</span>
+                      {/* Description */}
+                      <p className="text-slate-300 text-lg leading-relaxed">
+                        {edu.description}
+                      </p>
+
+                      {/* Highlights */}
+                      <div className="flex flex-wrap gap-3">
+                        {edu.highlights.map((highlight, idx) => (
+                          <span 
+                            key={highlight}
+                            className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-slate-700/80 to-slate-600/80 backdrop-blur-sm rounded-xl border border-slate-600/50 text-slate-200 hover:from-slate-600/80 hover:to-slate-500/80 hover:border-slate-500/50 transition-all duration-300 transform hover:scale-105"
+                          >
+                            {highlight}
+                          </span>
+                        ))}
                       </div>
-                      {(edu.cgpa || edu.percentage) && (
-                        <div className="flex items-center gap-2 text-green-400">
-                          <Award className="w-4 h-4" />
-                          <span className="text-sm font-medium">{edu.cgpa || edu.percentage}</span>
+                    </div>
+
+                    {/* Right Content - Score */}
+                    <div className="lg:w-48 flex lg:flex-col items-center lg:items-end gap-4">
+                      <div className="text-center lg:text-right">
+                        <div className="flex items-center gap-2 text-amber-400 mb-2">
+                          <Award className="w-5 h-5" />
+                          <span className="text-sm font-medium">Score</span>
                         </div>
-                      )}
+                        <div className="text-4xl font-black bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                          {edu.cgpa || edu.percentage}
+                        </div>
+                      </div>
+                      
+                      {/* Decorative Element */}
+                      <div className="relative">
+                        <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${edu.color} opacity-20 rotate-12 group-hover:rotate-45 transition-transform duration-500`}></div>
+                        <Star className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-white/80" />
+                      </div>
                     </div>
-
-                    {/* Description */}
-                    <p className="text-slate-300 leading-relaxed mb-6">
-                      {edu.description}
-                    </p>
-
-                    {/* Highlights */}
-                    <div className="flex flex-wrap gap-2">
-                      {edu.highlights.map((highlight, idx) => (
-                        <span 
-                          key={highlight}
-                          className="px-3 py-1 text-xs font-medium bg-white/10 backdrop-blur-sm rounded-full border border-white/20 text-slate-300 hover:bg-white/20 hover:text-white transition-all duration-300"
-                        >
-                          {highlight}
-                        </span>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-          </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          ))}
         </div>
 
-        {/* Bottom Stats */}
-        <div className="text-center mt-20">
-          <div className="inline-flex items-center gap-8 bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-xl border border-slate-600/50 rounded-2xl px-8 py-6 shadow-2xl">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-400">4+</div>
-              <div className="text-sm text-slate-400">Years of Learning</div>
-            </div>
-            <div className="w-px h-8 bg-slate-600"></div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-cyan-400">85%+</div>
-              <div className="text-sm text-slate-400">Average Score</div>
-            </div>
-            <div className="w-px h-8 bg-slate-600"></div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-400">CSE</div>
-              <div className="text-sm text-slate-400">Specialization</div>
+        {/* Bottom Achievement Stats */}
+        <div className="mt-24 text-center">
+          <div className="inline-flex items-center justify-center">
+            <div className="grid grid-cols-3 gap-12 bg-gradient-to-r from-slate-800/40 to-slate-700/40 backdrop-blur-2xl border border-slate-600/30 rounded-3xl px-12 py-8 shadow-2xl">
+              <div className="text-center group">
+                <div className="text-4xl font-black text-emerald-400 mb-2 group-hover:scale-110 transition-transform duration-300">4+</div>
+                <div className="text-slate-400 font-medium">Years Learning</div>
+              </div>
+              <div className="text-center group border-x border-slate-600/50 px-8">
+                <div className="text-4xl font-black text-cyan-400 mb-2 group-hover:scale-110 transition-transform duration-300">85%+</div>
+                <div className="text-slate-400 font-medium">Avg Performance</div>
+              </div>
+              <div className="text-center group">
+                <div className="text-4xl font-black text-purple-400 mb-2 group-hover:scale-110 transition-transform duration-300">CSE</div>
+                <div className="text-slate-400 font-medium">Specialization</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        .animate-spin-slow {
+          animation: spin-slow 20s linear infinite;
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow 3s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 };
