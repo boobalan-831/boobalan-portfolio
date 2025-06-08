@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Mail, User, Linkedin, Download } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -15,14 +16,40 @@ const Contact = () => {
     email: "",
     message: ""
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for your message. I'll get back to you soon.",
-    });
-    setFormData({ name: "", email: "", message: "" });
+    setIsLoading(true);
+
+    try {
+      await emailjs.send(
+        'service_7akbe2k', // Service ID
+        'template_h0ffpvg', // Template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_name: 'Boobalan D',
+        },
+        'mcTijNOwYSlAOT4u4' // Public Key
+      );
+
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thank you for your message. I'll get back to you soon.",
+      });
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      toast({
+        title: "Error Sending Message",
+        description: "Something went wrong. Please try again or contact me directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const contactInfo = [
@@ -122,6 +149,7 @@ const Contact = () => {
                     className="bg-slate-700/50 border-slate-600 text-white focus:border-blue-400 focus:ring-blue-400 transition-all duration-300 text-sm md:text-base"
                     placeholder="Your Name"
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 
@@ -135,6 +163,7 @@ const Contact = () => {
                     className="bg-slate-700/50 border-slate-600 text-white focus:border-blue-400 focus:ring-blue-400 transition-all duration-300 text-sm md:text-base"
                     placeholder="your.email@example.com"
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 
@@ -147,14 +176,16 @@ const Contact = () => {
                     className="bg-slate-700/50 border-slate-600 text-white focus:border-blue-400 focus:ring-blue-400 transition-all duration-300 min-h-[100px] md:min-h-[120px] text-sm md:text-base resize-none"
                     placeholder="Your message here..."
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 
                 <Button 
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-2 md:py-3 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105 text-sm md:text-base"
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-2 md:py-3 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  Send Message
+                  {isLoading ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </CardContent>
