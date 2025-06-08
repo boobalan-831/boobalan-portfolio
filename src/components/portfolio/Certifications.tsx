@@ -34,17 +34,53 @@ const Certifications = () => {
   ];
 
   return (
-    <section id="certifications" className="py-20">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+    <section id="certifications" className="py-10 md:py-20">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-8 md:mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
             Certifications & Achievements
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto"></div>
+          <div className="w-16 md:w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto"></div>
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="relative">
+          {/* Mobile Layout - Stack Cards */}
+          <div className="block md:hidden space-y-6">
+            {certifications.map((cert, index) => (
+              <Card 
+                key={cert.title}
+                className="bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/20 hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105 animate-fade-in"
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <CardContent className="p-4">
+                  <div className="text-right mb-3">
+                    <span className="bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-600/30 px-3 py-1 rounded-full text-blue-300 text-xs font-medium">
+                      {cert.year}
+                    </span>
+                  </div>
+                  
+                  <h3 className="text-lg font-bold text-blue-400 mb-2">
+                    {cert.title}
+                  </h3>
+                  
+                  <h4 className="text-base font-semibold text-cyan-300 mb-2">
+                    {cert.subtitle}
+                  </h4>
+                  
+                  <p className="text-gray-400 text-sm mb-3">
+                    {cert.provider}
+                  </p>
+                  
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {cert.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Desktop Layout - Timeline */}
+          <div className="hidden md:block relative">
             {/* Timeline line */}
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-600 to-cyan-600"></div>
             
