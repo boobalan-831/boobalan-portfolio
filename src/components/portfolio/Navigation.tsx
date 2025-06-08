@@ -24,7 +24,7 @@ const Navigation = () => {
     window.open("https://drive.google.com/file/d/1ZqqYr4PrtxnsNGxfgKV2Xx6HV6z9oVyF/view?usp=sharing", "_blank");
   };
 
-  const navItems = ["Home", "About", "Skills", "Projects", "Services", "Certifications", "Contact"];
+  const navItems = ["Home", "About", "Skills", "Projects", "Education", "Certifications", "Contact"];
 
   return (
     <>
