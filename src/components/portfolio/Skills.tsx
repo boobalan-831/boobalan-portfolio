@@ -1,158 +1,133 @@
+import React from "react";
+import {
+  Code2, Database, Cloud, Users, Figma
+} from "lucide-react";
+import "../../styles/Skills.css";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Code, Book, Github } from "lucide-react";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { useEffect, useRef, useState } from "react";
+const skills = [
+  {
+    category: "Programming Languages",
+    icon: Code2,
+    color: "from-cyan-400 via-blue-400 to-purple-400",
+    items: [
+      { label: "C", icon: <Code2 className="w-6 h-6 text-cyan-300" /> },
+      { label: "C++", icon: <Code2 className="w-6 h-6 text-blue-300" /> },
+      { label: "Java", icon: <Code2 className="w-6 h-6 text-yellow-200" /> },
+      { label: "Python", icon: <Code2 className="w-6 h-6 text-green-300" /> },
+      { label: "JavaScript", icon: <Code2 className="w-6 h-6 text-yellow-300" /> },
+      { label: "SQL", icon: <Database className="w-6 h-6 text-emerald-300" /> },
+    ],
+  },
+  {
+    category: "Web Technologies",
+    icon: Code2,
+    color: "from-blue-400 via-cyan-400 to-fuchsia-400",
+    items: [
+      { label: "HTML5", icon: <Code2 className="w-6 h-6 text-orange-300" /> },
+      { label: "CSS3", icon: <Code2 className="w-6 h-6 text-blue-300" /> },
+      { label: "Bootstrap", icon: <Code2 className="w-6 h-6 text-fuchsia-300" /> },
+      { label: "JavaScript", icon: <Code2 className="w-6 h-6 text-yellow-300" /> },
+      { label: "React.js", icon: <Code2 className="w-6 h-6 text-cyan-300" /> },
+    ],
+  },
+  {
+    category: "Cloud & DevOps",
+    icon: Cloud,
+    color: "from-purple-400 via-fuchsia-400 to-cyan-400",
+    items: [
+      { label: "Google Cloud (Basics)", icon: <Cloud className="w-6 h-6 text-blue-300" /> },
+      { label: "AWS", icon: <Cloud className="w-6 h-6 text-orange-200" /> },
+      { label: "Docker (beginner)", icon: <Cloud className="w-6 h-6 text-cyan-300" /> },
+      { label: "Git", icon: <Users className="w-6 h-6 text-pink-300" /> },
+    ],
+  },
+  {
+    category: "UI Tools",
+    icon: Figma,
+    color: "from-fuchsia-400 via-blue-400 to-cyan-400",
+    items: [
+      { label: "Figma (Basic)", icon: <Figma className="w-6 h-6 text-pink-300" /> },
+    ],
+  }
+];
 
-const Skills = () => {
-  const sectionRef = useScrollReveal<HTMLElement>({ threshold: 0.2 });
-  const [animateCards, setAnimateCards] = useState(false);
-  const [animateItems, setAnimateItems] = useState<{ [key: number]: boolean }>({});
-  const observerRef = useRef<IntersectionObserver | null>(null);
+const SkillBadge = ({ icon, label }: { icon: React.ReactNode; label: string }) => (
+  <div className="skill-badge flex flex-col items-center mx-2 my-2 group">
+    <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#182241] border border-cyan-600/10 group-hover:scale-105 transition-transform shadow-md mb-1">
+      {icon}
+    </div>
+    <span className="text-xs mt-1 text-cyan-100 font-medium font-stylish group-hover:text-cyan-300 transition">{label}</span>
+  </div>
+);
 
-  const skillCategories = [
-    {
-      title: "Programming Languages",
-      icon: Code,
-      skills: ["C", "C++", "Java", "Python", "JavaScript", "SQL"],
-      color: "blue"
-    },
-    {
-      title: "Web Technologies",
-      icon: Book,
-      skills: ["HTML5", "CSS3", "Bootstrap", "JavaScript", "React.js"],
-      color: "cyan"
-    },
-    {
-      title: "Cloud & DevOps",
-      icon: Github,
-      skills: ["Google Cloud (Basics)", "AWS", "Docker (beginner)", "Git"],
-      color: "purple"
-    }
-  ];
-
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => setAnimateCards(true), 300);
-            
-            // Animate skill items with staggered delay
-            skillCategories.forEach((_, categoryIndex) => {
-              setTimeout(() => {
-                setAnimateItems(prev => ({ ...prev, [categoryIndex]: true }));
-              }, 800 + (categoryIndex * 200));
-            });
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) {
-      observerRef.current.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, []);
-
-  const getColorClass = (color: string, type: string) => {
-    const colors = {
-      blue: {
-        bg: "bg-blue-600/20",
-        border: "border-blue-600/30",
-        text: "text-blue-400",
-        shadow: "shadow-blue-500/20",
-        accent: "border-blue-500/60"
-      },
-      cyan: {
-        bg: "bg-cyan-600/20",
-        border: "border-cyan-600/30",
-        text: "text-cyan-400",
-        shadow: "shadow-cyan-500/20",
-        accent: "border-cyan-500/60"
-      },
-      purple: {
-        bg: "bg-purple-600/20",
-        border: "border-purple-600/30",
-        text: "text-purple-400",
-        shadow: "shadow-purple-500/20",
-        accent: "border-purple-500/60"
-      }
-    };
-    return colors[color as keyof typeof colors][type as keyof typeof colors.blue];
-  };
-
-  return (
-    <section ref={sectionRef} id="skills" className="py-20 bg-slate-800/30">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-            Skills & Technologies
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto"></div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skillCategories.map((category, index) => (
-            <Card 
-              key={category.title}
-              className={`skill-card bg-slate-800/50 border-slate-700 transition-all duration-500 group cursor-pointer ${
-                animateCards ? 'animate-skill-card-enter' : 'opacity-0 scale-90'
-              }`}
-              style={{ 
-                animationDelay: `${index * 200}ms`,
-                '--category-accent': `var(--${category.color}-accent)`
-              } as React.CSSProperties}
-            >
-              <CardContent className="p-8">
-                <div className="text-center mb-6">
-                  <div className={`skill-icon w-16 h-16 mx-auto rounded-full ${getColorClass(category.color, 'bg')} ${getColorClass(category.color, 'border')} border-2 flex items-center justify-center mb-4 transition-all duration-300`}>
-                    <category.icon className={`w-8 h-8 ${getColorClass(category.color, 'text')} transition-transform duration-300 group-hover:scale-110`} />
-                  </div>
-                  <h3 className={`text-xl font-semibold ${getColorClass(category.color, 'text')}`}>
-                    {category.title}
-                  </h3>
-                </div>
-                
-                <div className="space-y-3">
-                  {category.skills.map((skill, skillIndex) => (
-                    <div 
-                      key={skill}
-                      className={`skill-item bg-slate-700/50 rounded-lg p-3 text-center text-gray-300 hover:bg-slate-700/70 transition-all duration-300 ${
-                        animateItems[index] ? 'animate-skill-item-enter' : 'opacity-0 translate-x-4'
-                      }`}
-                      style={{ animationDelay: `${skillIndex * 100}ms` }}
-                    >
-                      {skill}
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="mt-16 text-center">
-          <Card className={`bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/10 max-w-2xl mx-auto transition-all duration-500 ${
-            animateCards ? 'animate-skill-card-enter' : 'opacity-0 scale-90'
-          }`} style={{ animationDelay: '600ms' }}>
-            <CardContent className="p-8">
-              <h3 className="text-2xl font-semibold text-blue-400 mb-4">UI Tools</h3>
-              <div className="bg-slate-700/50 rounded-lg p-4 inline-block">
-                <span className="text-gray-300 text-lg">Figma (Basic)</span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+const SkillCategory = ({
+  icon: Icon,
+  category,
+  color,
+  items,
+}: {
+  icon: any;
+  category: string;
+  color: string;
+  items: { icon: React.ReactNode; label: string }[];
+}) => (
+  <div className="skill-card w-full md:w-[calc(50%-32px)] lg:w-[calc(33%-32px)] xl:w-[calc(32%-32px)] bg-gradient-to-br rounded-2xl shadow-lg border border-white/10 mb-8 p-6 mx-4 backdrop-blur-md transition-transform hover:scale-[1.025]"
+    style={{ background: "rgba(22, 33, 58, 0.93)" }}>
+    <div className="flex flex-col items-start">
+      <div className="flex items-center gap-3 mb-1">
+        <span className={`w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br ${color} shadow`}>
+          <Icon className="w-6 h-6 text-white drop-shadow" />
+        </span>
+        <h3 className="text-lg md:text-xl font-bold bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 bg-clip-text text-transparent font-title tracking-wide">
+          {category}
+        </h3>
       </div>
-    </section>
-  );
-};
+      {/* Light line below heading */}
+      <div className="skill-title-line w-full flex justify-start mb-2">
+        <span className="inline-block h-[2px] w-1/2 bg-gradient-to-r from-cyan-400 via-blue-300 to-purple-300 opacity-60 rounded-full" />
+      </div>
+    </div>
+    <div className="flex flex-wrap mt-2">
+      {items.map(({ icon, label }) => (
+        <SkillBadge icon={icon} label={label} key={label} />
+      ))}
+    </div>
+  </div>
+);
+
+const Skills: React.FC = () => (
+  <section className="skills-section relative py-24 px-2 md:px-0 min-h-screen bg-[#0e172a] overflow-x-hidden">
+    <div className="mx-auto max-w-3xl text-center mb-10 z-20 relative">
+      <span className="inline-flex items-center gap-2 bg-gradient-to-tr from-cyan-700 to-blue-700 py-1 px-4 rounded-full text-white text-xs font-bold uppercase shadow-md tracking-widest font-mono">
+        <Code2 className="w-4 h-4" />
+        My Skills
+      </span>
+      <h2 className="mt-4 text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-white via-cyan-300 to-blue-400 bg-clip-text text-transparent tracking-tight font-title">
+        Skillset at a Glance
+      </h2>
+      <p className="mt-4 text-lg text-slate-200 font-stylish font-medium">
+        <span className="text-cyan-200 font-bold">From core programming to modern web</span> and <span className="text-fuchsia-200 font-bold">cloud technologies</span>
+      </p>
+    </div>
+    <div className="w-full h-1 mb-8 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-full blur-[2.5px] opacity-30 animate-borderpan" />
+    {/* Skills grid */}
+    <div className="skills-grid flex flex-wrap justify-center items-stretch max-w-7xl mx-auto">
+      {skills.map(({ icon, category, color, items }) => (
+        <SkillCategory icon={icon} category={category} color={color} items={items} key={category} />
+      ))}
+    </div>
+    {/* Subtle BG SVG for depth */}
+    <svg className="absolute left-1/2 -translate-x-1/2 bottom-0 opacity-40 select-none pointer-events-none z-0" width="1100" height="190" viewBox="0 0 1100 190" fill="none">
+      <ellipse cx="550" cy="95" rx="480" ry="55" fill="url(#skills_ellipse)" />
+      <defs>
+        <radialGradient id="skills_ellipse" cx="0" cy="0" r="1" gradientTransform="translate(550 95) scale(480 55)" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#90cdf4" stopOpacity="0.10" />
+          <stop offset="0.8" stopColor="#90cdf4" stopOpacity="0.01" />
+          <stop offset="1" stopColor="#90cdf4" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+    </svg>
+  </section>
+);
 
 export default Skills;
