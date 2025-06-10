@@ -11,7 +11,7 @@ const TechPreloader = () => {
   const [loadingStage, setLoadingStage] = useState(0);
 
   const codeText = 'const developer = "Boobalan D";';
-  const subtitle = "Cloud Enthusiast | Full-Stack Developer | DevOps Learner";
+  const subtitle = "Cloud Enthusiast | Full-Stack Developer";
   
   const loadingStages = [
     "Compiling modules...",
@@ -69,7 +69,7 @@ const TechPreloader = () => {
       .to(".tech-preloader", { 
         scale: 1.1, 
         opacity: 0, 
-        duration: 0.8, 
+        duration: 0.5, 
         ease: "power2.inOut" 
       })
       .call(() => {

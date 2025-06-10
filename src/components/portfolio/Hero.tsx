@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import "../../styles/hero-section.css";
 
 export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

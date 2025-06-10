@@ -1,0 +1,59 @@
+@media (max-width: 900px) {
+  .project-card {
+    width: 94vw !important;
+    min-width: 0 !important;
+    max-width: 97vw !important;
+    height: 98vw !important;
+    min-height: 300px !important;
+    max-height: 420px !important;
+  }
+}
+.mobile-scrollbar::-webkit-scrollbar { display: none; }
+.mobile-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.font-title { font-family: 'Montserrat', 'Inter', ui-sans-serif, system-ui, sans-serif; }
+.font-stylish { font-family: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif; }
+@keyframes borderpan {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.animate-borderpan {
+  background-size: 200% 200%;
+  animation: borderpan 6s linear infinite;
+}
+@keyframes fadeinup {
+  0% { opacity: 0; transform: translateY(48px) scale(.94);}
+  85% { opacity: 1; transform: translateY(-3px) scale(1.05);}
+  100% { opacity: 1; transform: translateY(0) scale(1);}
+}
+.animate-fadeinup {
+  animation: fadeinup 0.52s cubic-bezier(.77,0,.18,1);
+}
+@keyframes glowpulse {
+  0%, 100% { box-shadow: 0 0 60px 0 rgba(48,230,255,0.19); }
+  50% { box-shadow: 0 0 120px 0 rgba(48,230,255,0.38); }
+}
+.animate-glowpulse {
+  animation: glowpulse 2.4s ease-in-out infinite;
+}
+@keyframes fadeinType {
+  0% { opacity: 0; letter-spacing: 0.1em;}
+  50% { opacity: 0.7; letter-spacing: 0.16em;}
+  100% { opacity: 1; letter-spacing: 0.2em;}
+}
+.animate-fadeinType {
+  animation: fadeinType 2.8s cubic-bezier(.45,2,.18,1) infinite alternate;
+}
+.animate-spin-slow {
+  animation: spin 2.8s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+.animate-cardglow {
+  animation: cardglow 4s linear infinite alternate;
+}
+@keyframes cardglow {
+  from { box-shadow: 0 0 0px 0 #2cfafc00; }
+  to { box-shadow: 0 0 24px 8px #2cfafc11; }
+}
