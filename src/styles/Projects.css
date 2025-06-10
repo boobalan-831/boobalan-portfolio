@@ -50,9 +50,9 @@
   0% { transform: rotate(0deg);}
   100% { transform: rotate(360deg);}
 }
-.animate-cardglow {
-  animation: cardglow 4s linear infinite alternate;
-}
+/* .animate-cardglow {
+  animation: cardglow  10s linear infinite alternate;
+} */
 @keyframes cardglow {
   from { box-shadow: 0 0 0px 0 #2cfafc00; }
   to { box-shadow: 0 0 24px 8px #2cfafc11; }
