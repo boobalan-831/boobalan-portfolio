@@ -56,3 +56,58 @@
 .nav-drawer-item:active .nav-link-text {
   color: #38bdf8 !important;
 }
+
+/* --- Mobile Hamburger Lines --- */
+.hamburger-line {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background: #94a3b8;
+  margin: 3px 0;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+.md\\:hidden .hamburger-line {
+  background: #94a3b8;
+}
+
+.md\\:hidden:focus .hamburger-line,
+.md\\:hidden:active .hamburger-line {
+  background: #38bdf8;
+}
+
+/* Hamburger lines visible only on mobile */
+@media (min-width: 768px) {
+  .hamburger-line {
+    display: none !important;
+  }
+}
+/* ...previous styles... */
+
+/* --- Mobile Hamburger Lines --- */
+.hamburger-line {
+  display: block;
+  width: 32px;
+  height: 3.2px;
+  background: #94a3b8;
+  margin: 6px 0;   /* Ensure equal spacing above/below each line */
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+.md\:hidden .hamburger-line {
+  background: #94a3b8;
+}
+
+.md\:hidden:focus .hamburger-line,
+.md\:hidden:active .hamburger-line {
+  background: #38bdf8;
+}
+
+/* Hamburger lines visible only on mobile */
+@media (min-width: 768px) {
+  .hamburger-line {
+    display: none !important;
+  }
+}
