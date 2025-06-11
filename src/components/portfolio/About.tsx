@@ -1,180 +1,136 @@
+import React, { useEffect } from "react";
+import { Code2, Cloud, TrendingUp, Award, BookOpen, CheckCircle2 } from "lucide-react";
+import CountUp from "react-countup";
+import "../../styles/About.css";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { useState, useEffect } from "react";
+const stats = [
+  {
+    value: 4,
+    label: "Projects Completed",
+    icon: <Award className="w-7 h-7" />,
+    suffix: "+",
+    tooltip: "Built across web, cloud, and automation domains!",
+  },
+  {
+    value: 3,
+    label: "Years Learning",
+    icon: <BookOpen className="w-7 h-7" />,
+    suffix: "+",
+    tooltip: "Continuous learning is my core strength!",
+  }
+];
 
-const About = () => {
-  const aboutRef = useScrollReveal<HTMLElement>();
-  const cardRef1 = useScrollReveal<HTMLDivElement>({ threshold: 0.2 });
-  const cardRef2 = useScrollReveal<HTMLDivElement>({ threshold: 0.2 });
-  const cardRef3 = useScrollReveal<HTMLDivElement>({ threshold: 0.2 });
-  const statsRef = useScrollReveal<HTMLDivElement>({ threshold: 0.3 });
-  const headingRef = useScrollReveal<HTMLDivElement>({ threshold: 0.5 });
+const features = [
+  "Open to collaboration on tech projects",
+  "Strong focus on clean, maintainable code",
+  "Eager to learn and adapt new technologies",
+  "Enjoy mentoring & knowledge sharing",
+  "Driven by real-world problem solving"
+];
 
-  const [projectsCount, setProjectsCount] = useState(0);
-  const [yearsCount, setYearsCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
+// Intersection Observer for scroll-based card animation
+function useScrollAnimation(className = "scroll-animate") {
   useEffect(() => {
-    const statsElement = statsRef.current;
-    if (!statsElement || hasAnimated) return;
-
-    const observer = new IntersectionObserver(
+    const elements = document.querySelectorAll(`.${className}`);
+    const observer = new window.IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated) {
-            setHasAnimated(true);
-            
-            // Animate projects counter
-            let currentProjects = 0;
-            const projectsInterval = setInterval(() => {
-              currentProjects += 2;
-              setProjectsCount(currentProjects);
-              if (currentProjects >= 50) {
-                clearInterval(projectsInterval);
-                setProjectsCount(50);
-              }
-            }, 20);
-
-            // Animate years counter
-            let currentYears = 0;
-            const yearsInterval = setInterval(() => {
-              currentYears += 0.1;
-              setYearsCount(Math.round(currentYears * 10) / 10);
-              if (currentYears >= 3) {
-                clearInterval(yearsInterval);
-                setYearsCount(3);
-              }
-            }, 100);
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animated-in");
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.18 }
     );
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [className]);
+}
 
-    observer.observe(statsElement);
-
-    return () => {
-      if (statsElement) {
-        observer.unobserve(statsElement);
-      }
-    };
-  }, [statsRef, hasAnimated]);
-
-  const KeywordTooltip = ({ children, tooltip }: { children: React.ReactNode; tooltip: string }) => (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="text-blue-400 hover:text-cyan-300 cursor-help transition-colors duration-200 underline decoration-dotted">
-          {children}
-        </span>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p className="text-sm">{tooltip}</p>
-      </TooltipContent>
-    </Tooltip>
-  );
-
+const About: React.FC = () => {
+  useScrollAnimation("scroll-animate");
   return (
-    <TooltipProvider>
-      <section ref={aboutRef} id="about" className="py-20 relative">
-        <div className="container mx-auto px-6">
-          <div ref={headingRef} className="text-center mb-16 reveal">
-            <h2 className="about-heading text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent relative inline-block">
-              About Me
-            </h2>
-            <div className="about-underline w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto transition-all duration-600 ease-out"></div>
+    <section className="about-section-dark min-h-screen w-full relative overflow-x-hidden">
+      <div className="about-container-dark mx-auto max-w-4xl px-3 pt-20 pb-10 relative z-10">
+        {/* Title */}
+        <div className="text-center mb-10">
+          <h1 className="about-title-dark text-4xl md:text-5xl font-extrabold mb-4">
+            My Journey in Tech
+          </h1>
+          <div className="about-title-underline-dark mx-auto my-3"></div>
+          <div className="about-tags-dark flex flex-wrap justify-center gap-3 mb-7">
+            <span className="about-role-dark">
+              <Code2 className="w-5 h-5 mr-1" />
+              Software Developer
+            </span>
+            <span className="about-role-dark">
+              <Cloud className="w-5 h-5 mr-1" />
+              Cloud Enthusiast
+            </span>
+            <span className="about-role-dark">
+              <TrendingUp className="w-5 h-5 mr-1" />
+              Data Science Learner
+            </span>
           </div>
+        </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Left Column - Bio and Stats */}
-            <div className="space-y-8">
-              {/* Profile Bio Card */}
-              <Card ref={cardRef1} className="bio-card bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/10 card-hover reveal">
-                <CardContent className="p-8">
-                  <p className="text-lg text-gray-300 leading-relaxed">
-                    Boobalan D is a Computer Science and Engineering student with a passion for{' '}
-                    <KeywordTooltip tooltip="Modern architecture using containers, microservices, and orchestration">
-                      cloud-native solutions
-                    </KeywordTooltip>
-                    ,{' '}
-                    <KeywordTooltip tooltip="Development covering both frontend and backend technologies">
-                      full-stack web development
-                    </KeywordTooltip>
-                    , and{' '}
-                    <KeywordTooltip tooltip="Practices combining development and operations for faster delivery">
-                      DevOps
-                    </KeywordTooltip>
-                    . He's committed to crafting{' '}
-                    <KeywordTooltip tooltip="Systems designed to handle growing user demands efficiently">
-                      scalable software systems
-                    </KeywordTooltip>
-                    {' '}and constantly evolves his skills through hands-on projects and research.
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Metrics Counters */}
-              <div ref={statsRef} className="grid grid-cols-2 gap-6 reveal">
-                <Card className="bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20 transition-all duration-300 card-hover">
-                  <CardContent className="p-6 text-center">
-                    <div className="counter-number text-4xl font-bold text-blue-400 mb-2 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-                      {projectsCount}+
-                    </div>
-                    <div className="text-gray-300 font-light">Projects Completed</div>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20 transition-all duration-300 card-hover">
-                  <CardContent className="p-6 text-center">
-                    <div className="counter-number text-4xl font-bold text-cyan-400 mb-2 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                      {yearsCount}+
-                    </div>
-                    <div className="text-gray-300 font-light">Years Learning</div>
-                  </CardContent>
-                </Card>
-              </div>
+        {/* Main Content Grid */}
+        <div className="about-grid-dark">
+          <div className="about-card-dark about-intro-dark scroll-animate">
+            <p>
+              Hi! I'm a <span className="about-highlight-dark">computer science</span> student passionate about technology and innovation.
+              <br /><br />
+              I love building <span className="about-highlight-dark">modern web apps</span>, exploring <span className="about-highlight-dark">cloud & DevOps</span>, and now diving into <span className="about-highlight-dark">data science</span>. My journey is all about <span className="about-highlight-dark">learning</span>, experimenting, and turning ideas into impactful projects.
+              <br /><br />
+              I'm always eager to take on new challenges, collaborate with others, and grow as a <span className="about-highlight-dark">developer</span> and problem solver.
+            </p>
+          </div>
+          <div className="about-card-dark scroll-animate">
+            <h3 className="about-card-title-dark">Career Goal</h3>
+            <div className="about-card-underline-dark"></div>
+            <div className="about-card-content-dark">
+              My goal is to become a <span className="about-highlight-dark">skilled software developer</span> and cloud engineer, creating <span className="about-highlight-dark">real-world solutions</span> that make a positive impact.
             </div>
-
-            {/* Right Column - Cards Grid */}
-            <div className="space-y-6">
-              <Card ref={cardRef2} className="bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/10 card-hover reveal card-lift">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-semibold text-blue-400 mb-4 font-['Poppins'] font-semibold">
-                    Coding Philosophy
-                  </h3>
-                  <p className="text-gray-300 leading-relaxed font-light">
-                    "Clean code is not written by following a set of rules. Clean code is written by following principles and having the discipline to apply them."
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card ref={cardRef3} className="bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/10 card-hover reveal card-lift">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-semibold text-cyan-400 mb-4 font-['Poppins'] font-semibold">
-                    Career Goal
-                  </h3>
-                  <p className="text-gray-300 leading-relaxed font-light">
-                    To become a skilled cloud architect and full-stack developer, building innovative solutions that solve real-world problems and make a positive impact on society.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-slate-800/50 border-slate-700 shadow-xl shadow-blue-500/10 card-hover card-lift">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-semibold text-purple-400 mb-4 font-['Poppins'] font-semibold">
-                    Technical Focus
-                  </h3>
-                  <p className="text-gray-300 leading-relaxed font-light">
-                    Specializing in modern web technologies, cloud infrastructure, and automation. Always exploring cutting-edge tools to deliver efficient, maintainable solutions.
-                  </p>
-                </CardContent>
-              </Card>
+          </div>
+          <div className="about-card-dark scroll-animate">
+            <h3 className="about-card-title-dark">Technical Focus</h3>
+            <div className="about-card-underline-dark"></div>
+            <div className="about-card-content-dark">
+              I focus on <span className="about-highlight-dark">computer science fundamentals</span>, software development, and cloud & DevOps.<br />
+              Recently, I started learning <span className="about-highlight-dark">data science</span> to expand my skills even further.
             </div>
           </div>
         </div>
-      </section>
-    </TooltipProvider>
+
+        {/* Stats */}
+        <div className="about-stats-row-dark flex flex-wrap justify-center gap-7 mt-12">
+          {stats.map((stat) => (
+            <div key={stat.label} className="about-stat-card-dark scroll-animate" tabIndex={0}>
+              <span className="about-stat-icon-dark">{stat.icon}</span>
+              <span className="about-stat-value-dark">
+                <CountUp end={stat.value} duration={1.5} enableScrollSpy={true} scrollSpyOnce={true} />{stat.suffix}
+              </span>
+              <span className="about-stat-label-dark">{stat.label}</span>
+              <span className="about-stat-tooltip">{stat.tooltip}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Features */}
+        <div className="about-features-dark mt-16 mx-auto max-w-2xl scroll-animate">
+          <h3 className="about-features-title-dark">What drives me?</h3>
+          <div className="about-card-underline-dark mb-4"></div>
+          <ul className="about-features-list-dark">
+            {features.map((feature, i) => (
+              <li key={i} className="flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-sky-400" />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
   );
 };
 
