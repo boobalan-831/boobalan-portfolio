@@ -2,7 +2,7 @@ import React from "react";
 import {
   Code2, Database, Cloud, Users, Figma
 } from "lucide-react";
-import "@/styles/Skills.css";
+import "@/styles/skills.css";
 
 
 const skills = [
