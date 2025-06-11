@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Download } from "lucide-react";
+import "@/styles/navigation.css";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,7 +17,14 @@ const Navigation = () => {
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: "smooth" });
+    if (element) {
+      // For accessibility: set tabindex and focus for section highlight
+      element.setAttribute("tabindex", "-1");
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        element.focus();
+      }, 500);
+    }
     setIsMobileMenuOpen(false);
   };
 
@@ -47,8 +55,9 @@ const Navigation = () => {
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
                   className="nav-link-enhanced text-gray-300 hover:text-blue-400 transition-colors duration-300 relative font-['Poppins'] font-medium"
+                  type="button"
                 >
-                  {item}
+                  <span className="nav-link-text">{item}</span>
                 </button>
               ))}
               
@@ -67,6 +76,7 @@ const Navigation = () => {
               className="md:hidden w-8 h-8 flex flex-col justify-center items-center space-y-1 text-gray-300 hover:text-blue-400 transition-colors duration-300"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
+              type="button"
             >
               <span className={`hamburger-line ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
               <span className={`hamburger-line ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
@@ -97,12 +107,11 @@ const Navigation = () => {
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase())}
-                className={`text-left py-4 text-xl text-gray-300 hover:text-blue-400 transition-all duration-300 border-b border-slate-700 nav-drawer-item ${
-                  isMobileMenuOpen ? 'animate-slide-in-right' : ''
-                }`}
+                className={`text-left py-4 text-xl text-gray-300 hover:text-blue-400 transition-all duration-300 border-b border-slate-700 nav-drawer-item`}
                 style={{ animationDelay: `${index * 100}ms` }}
+                type="button"
               >
-                {item}
+                <span className="nav-link-text">{item}</span>
               </button>
             ))}
             

@@ -255,7 +255,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="hero-root">
+    <section id="home" className="hero-root">
       {/* Starfield and tech bg canvas */}
       <canvas ref={canvasRef} className="hero-starfield" />
 

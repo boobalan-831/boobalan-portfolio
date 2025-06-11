@@ -281,7 +281,7 @@ const Projects = () => {
     : [projects[3]];
 
   return (
-    <section className="relative py-24 px-2 md:px-0 min-h-screen bg-[#101627] overflow-x-hidden">
+    <section id="projects" className="relative py-24 px-2 md:px-0 min-h-screen bg-[#101627] overflow-x-hidden">
       {/* Section Title */}
       <div className="mx-auto max-w-3xl text-center mb-14 z-20 relative">
         <span className="inline-flex items-center gap-2 bg-gradient-to-tr from-cyan-700 to-blue-700 py-1 px-4 rounded-full text-white text-xs font-bold uppercase shadow-md tracking-widest font-mono">

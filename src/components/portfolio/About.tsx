@@ -50,7 +50,7 @@ function useScrollAnimation(className = "scroll-animate") {
 const About: React.FC = () => {
   useScrollAnimation("scroll-animate");
   return (
-    <section className="about-section-dark min-h-screen w-full relative overflow-x-hidden">
+    <section id="about" className="about-section-dark min-h-screen w-full relative overflow-x-hidden">
       <div className="about-container-dark mx-auto max-w-4xl px-3 pt-20 pb-10 relative z-10">
         {/* Title */}
         <div className="text-center mb-10">

@@ -97,7 +97,7 @@ const SkillCategory = ({
 );
 
 const Skills: React.FC = () => (
-  <section className="skills-section relative py-24 px-2 md:px-0 min-h-screen bg-[#0e172a] overflow-x-hidden">
+  <section id="skills" className="skills-section relative py-24 px-2 md:px-0 min-h-screen bg-[#0e172a] overflow-x-hidden">
     <div className="mx-auto max-w-3xl text-center mb-10 z-20 relative">
       <span className="inline-flex items-center gap-2 bg-gradient-to-tr from-cyan-700 to-blue-700 py-1 px-4 rounded-full text-white text-xs font-bold uppercase shadow-md tracking-widest font-mono">
         <Code2 className="w-4 h-4" />

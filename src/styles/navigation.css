@@ -1,71 +1,58 @@
-
-/* Enhanced Navigation Styles */
-.nav-link-enhanced {
-  position: relative;
-  transition: color 0.3s ease;
+.nav-link-enhanced:focus,
+.nav-link-enhanced:active,
+.nav-drawer-item:focus,
+.nav-drawer-item:active {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-.nav-link-enhanced::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
+/* Keyboard accessibility: only show focus ring for keyboard users */
+.nav-link-enhanced:focus-visible,
+.nav-drawer-item:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+  box-shadow: none;
 }
 
-.nav-link-enhanced:hover::after {
-  width: 100%;
-}
-
-/* Legacy nav link support */
-.nav-link {
-  position: relative;
-  transition: color 0.3s ease;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-/* Hamburger Menu Animation */
-.hamburger-line {
-  width: 100%;
-  height: 2px;
-  background: currentColor;
-  transition: all 0.4s ease;
-  transform-origin: center;
-}
-
-/* Mobile Drawer Animation */
+.nav-link-enhanced,
 .nav-drawer-item {
-  transform: translateX(30px);
-  opacity: 0;
-  animation: slideInDrawer 0.4s ease-out forwards;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  transition: color 0.18s, background 0.18s;
 }
 
-/* Focus States for Accessibility */
-.nav-link-enhanced:focus {
-  outline: 2px solid var(--primary-blue);
-  outline-offset: 2px;
+/* Add animated underline effect on hover/click */
+.nav-link-enhanced .nav-link-text,
+.nav-drawer-item .nav-link-text {
+  position: relative;
+  z-index: 1;
+  transition: color 0.18s;
+}
+.nav-link-enhanced .nav-link-text::after,
+.nav-drawer-item .nav-link-text::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 2.5px;
+  background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
+  border-radius: 99px;
+  transform: scaleX(0);
+  transition: transform 0.23s cubic-bezier(.68,-0.55,.27,1.55);
+  z-index: 2;
 }
 
-button:focus {
-  outline: 2px solid var(--primary-blue);
-  outline-offset: 2px;
+.nav-link-enhanced:hover .nav-link-text::after,
+.nav-link-enhanced:active .nav-link-text::after,
+.nav-link-enhanced:focus-visible .nav-link-text::after,
+.nav-drawer-item:hover .nav-link-text::after,
+.nav-drawer-item:active .nav-link-text::after,
+.nav-drawer-item:focus-visible .nav-link-text::after {
+  transform: scaleX(1);
+}
+
+/* Optional: Slightly bolder text color on click/active */
+.nav-link-enhanced:active .nav-link-text,
+.nav-drawer-item:active .nav-link-text {
+  color: #38bdf8 !important;
 }

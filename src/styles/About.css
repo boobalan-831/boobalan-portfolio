@@ -9,7 +9,9 @@
   --card-radius: 1.2rem;
   --stat-bg-dark: #131b2a;
 }
-
+.section-scroll-offset {
+  scroll-margin-top: 50px; /* Adjust to your navbar height */
+}
 .about-section-dark {
   background: var(--main-bg-dark);
   min-height: 100vh;
