@@ -263,7 +263,7 @@ export default function HeroSection() {
       <div className="hero-content">
         <div className="hero-photo-wrapper">
           <img
-            src="https://postimage.me/images/2025/06/06/1684570080338.jpg"
+            src="/uploads/cf035bd2-11aa-4a59-868c-f9349f633ead.png"
             alt="Boobalan D"
             className="hero-photo"
           />
