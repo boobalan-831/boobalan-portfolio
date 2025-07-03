@@ -1,3 +1,4 @@
+
 .nav-link-enhanced:focus,
 .nav-link-enhanced:active,
 .nav-drawer-item:focus,
@@ -18,27 +19,30 @@
 .nav-drawer-item {
   -webkit-tap-highlight-color: transparent;
   position: relative;
-  transition: color 0.18s, background 0.18s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Add animated underline effect on hover/click */
+/* Enhanced animated underline effect */
 .nav-link-enhanced .nav-link-text,
 .nav-drawer-item .nav-link-text {
   position: relative;
   z-index: 1;
-  transition: color 0.18s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .nav-link-enhanced .nav-link-text::after,
 .nav-drawer-item .nav-link-text::after {
   content: "";
   display: block;
   position: absolute;
-  left: 0; right: 0; bottom: -4px;
+  left: 0; 
+  right: 0; 
+  bottom: -4px;
   height: 2.5px;
   background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
   border-radius: 99px;
   transform: scaleX(0);
-  transition: transform 0.23s cubic-bezier(.68,-0.55,.27,1.55);
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
   z-index: 2;
 }
 
@@ -51,58 +55,66 @@
   transform: scaleX(1);
 }
 
-/* Optional: Slightly bolder text color on click/active */
+/* Active state styles */
+.nav-link-active {
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+}
+
+.nav-link-active .nav-link-text::after {
+  transform: scaleX(1);
+  animation: glow-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+  from {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+  to {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* Enhanced click/active state */
 .nav-link-enhanced:active .nav-link-text,
 .nav-drawer-item:active .nav-link-text {
   color: #38bdf8 !important;
+  transform: scale(0.98);
 }
 
-/* --- Mobile Hamburger Lines --- */
-.hamburger-line {
-  display: block;
-  width: 28px;
-  height: 3px;
-  background: #94a3b8;
-  margin: 3px 0;
-  border-radius: 2px;
-  transition: all 0.3s cubic-bezier(.68,-0.55,.27,1.55);
-}
-
-.md\\:hidden .hamburger-line {
-  background: #94a3b8;
-}
-
-.md\\:hidden:focus .hamburger-line,
-.md\\:hidden:active .hamburger-line {
-  background: #38bdf8;
-}
-
-/* Hamburger lines visible only on mobile */
-@media (min-width: 768px) {
-  .hamburger-line {
-    display: none !important;
-  }
-}
-/* ...previous styles... */
-
-/* --- Mobile Hamburger Lines --- */
+/* Mobile Hamburger Lines with smooth transitions */
 .hamburger-line {
   display: block;
   width: 32px;
   height: 3.2px;
   background: #94a3b8;
-  margin: 6px 0;   /* Ensure equal spacing above/below each line */
+  margin: 6px 0;
   border-radius: 2px;
-  transition: all 0.3s cubic-bezier(.68,-0.55,.27,1.55);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 .md\:hidden .hamburger-line {
   background: #94a3b8;
 }
 
+.md\:hidden:hover .hamburger-line,
 .md\:hidden:focus .hamburger-line,
 .md\:hidden:active .hamburger-line {
   background: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+/* Smooth drawer animation */
+.nav-drawer-item {
+  opacity: 0;
+  transform: translateX(20px);
+  animation: slideInFade 0.5s ease-out forwards;
+}
+
+@keyframes slideInFade {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Hamburger lines visible only on mobile */
@@ -110,4 +122,20 @@
   .hamburger-line {
     display: none !important;
   }
+}
+
+/* Enhanced backdrop blur effect */
+.header {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth logo animation */
+.nav-logo {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-logo:hover {
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
 }
