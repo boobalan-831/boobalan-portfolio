@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Download } from "lucide-react";
@@ -18,12 +19,45 @@ const Navigation = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      // For accessibility: set tabindex and focus for section highlight
-      element.setAttribute("tabindex", "-1");
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => {
-        element.focus();
-      }, 500);
+      // Enhanced smooth scrolling for all devices
+      const headerOffset = 80; // Account for fixed header
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      // Use requestAnimationFrame for smoother animation on all devices
+      const smoothScroll = (targetPosition: number) => {
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 800; // Smooth duration
+        let start: number | null = null;
+
+        const step = (timestamp: number) => {
+          if (!start) start = timestamp;
+          const progress = timestamp - start;
+          const ease = easeInOutCubic(progress / duration);
+          
+          window.scrollTo(0, startPosition + distance * ease);
+          
+          if (progress < duration) {
+            requestAnimationFrame(step);
+          } else {
+            // For accessibility: set tabindex and focus for section highlight
+            element.setAttribute("tabindex", "-1");
+            setTimeout(() => {
+              element.focus();
+            }, 100);
+          }
+        };
+
+        requestAnimationFrame(step);
+      };
+
+      // Easing function for smooth animation
+      const easeInOutCubic = (t: number): number => {
+        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+      };
+
+      smoothScroll(offsetPosition);
     }
     setIsMobileMenuOpen(false);
   };
