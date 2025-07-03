@@ -133,7 +133,7 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -142,31 +142,30 @@
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, var(--primary-blue), var(--secondary-blue));
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #2563eb, #0891b2);
 }
 
-/* Enhanced Smooth scrolling for all devices */
+/* Optimized smooth scrolling for all devices */
 html {
   scroll-behavior: smooth;
-  /* Optimize scrolling performance */
-  -webkit-overflow-scrolling: touch;
-  scroll-padding-top: 80px; /* Account for fixed header */
+  scroll-padding-top: 80px;
 }
 
-/* Ensure smooth scrolling on mobile devices */
+/* Performance optimizations */
 * {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Optimize scroll performance for mobile */
 body {
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Optimize rendering performance */
+  will-change: scroll-position;
 }
 
 /* Custom animations for Education section */
@@ -206,4 +205,17 @@ body {
 /* Ensure sections are properly positioned for navigation */
 section {
   scroll-margin-top: 80px;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  body {
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+  }
 }
