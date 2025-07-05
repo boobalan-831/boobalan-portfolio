@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Cloud, Brain, Database, Globe, Laptop, Award } from "lucide-react";
@@ -214,186 +215,293 @@ export default function Certifications() {
   }
 
   return (
-    <section id="certifications" className="relative py-16 md:py-28 bg-[var(--main-bg-dark)] overflow-hidden">
+    <section id="certifications" className="relative py-16 md:py-28 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none z-0">
-        <svg className="absolute left-0 top-0 w-72 h-72 opacity-20 blur-2xl" style={{filter: "blur(80px)"}}><circle cx="130" cy="130" r="130" fill="#38bdf8" /></svg>
-        <svg className="absolute right-0 bottom-0 w-72 h-72 opacity-20 blur-2xl" style={{filter: "blur(80px)"}}><circle cx="130" cy="130" r="130" fill="#6366f1" /></svg>
+        <div className="absolute left-10 top-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute right-10 bottom-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute left-1/2 top-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
-      <div className="relative z-10 text-center mb-8 md:mb-12">
-        <h2 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 bg-clip-text text-transparent tracking-tight drop-shadow-lg animate-fade-in-down">
-          My Achievements & Certifications
+      
+      <div className="relative z-10 text-center mb-12">
+        <h2 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent tracking-tight mb-4 animate-fade-in-down">
+          Certifications & Achievements
         </h2>
         <div className="flex justify-center mt-4 gap-2 flex-wrap">
-          <span className="inline-block px-4 py-1 bg-gradient-to-r from-cyan-800 to-blue-700 rounded-full shadow font-bold text-cyan-200 text-base md:text-lg tracking-wide mr-2 animate-pulse">
-            #LifelongLearner
+          <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/80 to-indigo-600/80 rounded-full shadow-lg font-bold text-white text-base md:text-lg tracking-wide backdrop-blur-sm border border-blue-400/20">
+            #ContinuousLearning
           </span>
         </div>
-        <p className="text-cyan-100 mt-3 text-lg md:text-2xl font-medium max-w-xl mx-auto animate-fade-in-up">
-          A journey of continuous <span className="text-blue-300 font-bold">learning</span> and <span className="text-purple-300 font-bold">excellence</span>.
+        <p className="text-slate-300 mt-4 text-lg md:text-xl font-medium max-w-2xl mx-auto animate-fade-in-up">
+          A journey of continuous <span className="text-blue-400 font-bold">growth</span> and professional <span className="text-indigo-400 font-bold">excellence</span>.
         </p>
       </div>
-      <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-8 px-2">
+
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-10 px-4">
         <input
-          className="w-full md:w-80 px-4 py-2 rounded-full bg-slate-800 text-cyan-100 placeholder-cyan-400 shadow-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
+          className="w-full md:w-80 px-6 py-3 rounded-2xl bg-slate-800/80 backdrop-blur-sm text-white placeholder-slate-400 shadow-xl border border-slate-600/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 transition-all duration-300"
           type="text"
-          placeholder="Search certificates..."
+          placeholder="🔍 Search certificates..."
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
       </div>
-      <div className="flex flex-wrap justify-center gap-3 mb-10 px-2">
-        <button className={`tag-chip ${!selectedTag ? "active" : ""}`} onClick={() => setSelectedTag(null)}>All</button>
+
+      <div className="flex flex-wrap justify-center gap-3 mb-12 px-4">
+        <button 
+          className={`px-4 py-2 rounded-full font-semibold transition-all duration-300 border ${
+            !selectedTag 
+              ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg border-blue-400/50" 
+              : "bg-slate-700/80 text-slate-300 hover:bg-slate-600/80 border-slate-600/50"
+          }`}
+          onClick={() => setSelectedTag(null)}
+        >
+          All
+        </button>
         {allTags.map(tag => (
           <button
             key={tag}
-            className={`tag-chip ${selectedTag === tag ? "active" : ""}`}
+            className={`px-4 py-2 rounded-full font-semibold transition-all duration-300 border ${
+              selectedTag === tag
+                ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg border-blue-400/50"
+                : "bg-slate-700/80 text-slate-300 hover:bg-slate-600/80 border-slate-600/50"
+            }`}
             onClick={() => setSelectedTag(tag)}
-          >{tag}</button>
+          >
+            {tag}
+          </button>
         ))}
       </div>
-      <div ref={gridRef} className={`relative z-10 grid gap-8 ${isMobile ? "grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"} max-w-6xl mx-auto px-2`}>
+
+      <div ref={gridRef} className={`relative z-10 grid gap-8 ${isMobile ? "grid-cols-1" : "sm:grid-cols-2 xl:grid-cols-3"} max-w-7xl mx-auto px-4`}>
         {visibleCerts.length === 0 && (
-          <div className="text-cyan-200 text-center col-span-full">No certificates found.</div>
+          <div className="text-slate-400 text-center col-span-full text-lg">
+            No certificates found matching your criteria.
+          </div>
         )}
         {visibleCerts.map((cert, idx) => (
           <div
             key={`${cert.title}-${idx}`}
             ref={el => cardRefs.current[idx] = el}
-            className="opacity-0 transition-opacity duration-700 group relative"
-            tabIndex={0}
-            style={{ animationDelay: `${idx * 70}ms` }}
+            className="opacity-0 transition-all duration-700 group"
+            style={{ animationDelay: `${idx * 100}ms` }}
           >
             <Card
-              className="certificate-card bg-gradient-to-br from-[#1e293b]/80 via-[#19203a]/90 to-[#283557]/80 border-0 shadow-2xl hover:shadow-cyan-300/30 transition-transform hover:scale-[1.03] cursor-pointer"
+              className="h-full bg-gradient-to-br from-slate-800/90 via-slate-700/80 to-slate-800/90 backdrop-blur-sm border border-slate-600/50 shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 hover:scale-[1.02] hover:border-blue-400/50 cursor-pointer group-hover:bg-gradient-to-br group-hover:from-slate-700/90 group-hover:via-slate-600/80 group-hover:to-slate-700/90"
               onClick={() => isMobile ? handleMobileQuickView(idx) : setShowModal(idx)}
-              aria-label={`View details for ${cert.title}`}
             >
-              <CardContent className="p-6 relative">
+              <CardContent className="p-6 relative h-full flex flex-col">
                 {cert.isNew && (
-                  <span className="absolute top-2 right-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-xs font-bold text-black px-3 py-1 rounded-full shadow-lg animate-bounce z-20">
+                  <span className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-xs font-bold text-black px-3 py-1 rounded-full shadow-lg animate-bounce z-10">
                     NEW
                   </span>
                 )}
-                <div className="flex items-center justify-between mb-2">
-                  <span>{cert.icon}</span>
-                  <span className="text-xs font-bold rounded-full px-3 py-1 bg-gradient-to-r from-blue-800 via-cyan-800 to-purple-800 text-cyan-200 border border-blue-600/40 shadow">
+                
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-2 bg-slate-700/50 rounded-lg border border-slate-600/30">
+                    {cert.icon}
+                  </div>
+                  <span className="text-xs font-bold rounded-full px-3 py-1 bg-gradient-to-r from-blue-600/80 to-indigo-600/80 text-white border border-blue-400/30 shadow-md">
                     {cert.year}
                   </span>
                 </div>
-                <h3 className="text-xl font-extrabold text-blue-200 mb-1">{cert.title}</h3>
-                <h4 className="text-base font-semibold text-cyan-300 mb-2">{cert.subtitle}</h4>
-                <p className="text-cyan-100 font-medium mb-2">{cert.provider}</p>
-                <p className="text-gray-300 text-sm line-clamp-3">{cert.description}</p>
-                <div className="flex gap-2 mt-2 flex-wrap">
-                  {cert.tags?.map(tag => (
-                    <span key={tag} className="text-xs bg-cyan-800/70 text-cyan-200 px-2 py-0.5 rounded-full font-semibold">{tag}</span>
-                  ))}
+
+                <div className="flex-grow">
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
+                    {cert.title}
+                  </h3>
+                  <h4 className="text-base font-semibold text-blue-300 mb-3">
+                    {cert.subtitle}
+                  </h4>
+                  <p className="text-slate-300 font-medium mb-3 text-sm">
+                    {cert.provider}
+                  </p>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-3">
+                    {cert.description}
+                  </p>
                 </div>
-                {cert.link && (
-                  <a
-                    href={cert.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-3 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-900 font-bold shadow hover:scale-105 hover:shadow-lg transition-all text-sm"
-                    onClick={e => e.stopPropagation()}
-                  >
-                    View Credential
-                  </a>
-                )}
+
+                <div className="mt-auto">
+                  <div className="flex gap-2 mb-4 flex-wrap">
+                    {cert.tags?.slice(0, 3).map(tag => (
+                      <span 
+                        key={tag} 
+                        className="text-xs bg-slate-600/60 text-slate-200 px-2 py-1 rounded-full font-semibold border border-slate-500/30"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {cert.link && (
+                    <a
+                      href={cert.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold shadow-lg hover:shadow-blue-500/30 hover:scale-105 transition-all duration-300 text-sm"
+                      onClick={e => e.stopPropagation()}
+                    >
+                      <span>View Credential</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-8">
+
+      <div className="flex justify-center mt-12">
         {itemsToShow < filteredCerts.length ? (
           <button
-            className="px-6 py-2 rounded-full font-bold bg-gradient-to-r from-cyan-500 to-blue-500 text-black shadow-lg hover:scale-105 transition-all focus:outline-none animate-fade-in-up"
+            className="px-8 py-3 rounded-full font-bold bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-xl hover:shadow-blue-500/30 hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             onClick={handleShowMore}
-          >Show More</button>
+          >
+            Show More Certificates
+          </button>
         ) : filteredCerts.length > (isMobile ? MOBILE_CARDS_PER_PAGE * INITIAL_ROWS : CERTIFICATES_PER_ROW * INITIAL_ROWS) ? (
           <button
-            className="px-6 py-2 rounded-full font-bold bg-gradient-to-r from-blue-500 to-cyan-500 text-black shadow-lg hover:scale-105 transition-all focus:outline-none animate-fade-in-up"
+            className="px-8 py-3 rounded-full font-bold bg-gradient-to-r from-indigo-500 to-blue-500 text-white shadow-xl hover:shadow-indigo-500/30 hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
             onClick={handleShowLess}
-          >Show Less</button>
+          >
+            Show Less
+          </button>
         ) : null}
       </div>
+
+      {/* Desktop Modal */}
       {!isMobile && typeof showModal === 'number' && visibleCerts[showModal] && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center animate-fade-in-up px-4"
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setShowModal(null)}
         >
           <div
-            className="bg-gradient-to-br from-[#1e293b]/90 via-[#19203a]/95 to-[#283557]/90 rounded-2xl p-8 max-w-md w-full shadow-2xl relative transition-all animate-fade-in-up"
+            className="bg-gradient-to-br from-slate-800/95 via-slate-700/90 to-slate-800/95 backdrop-blur-md rounded-2xl p-8 max-w-lg w-full shadow-2xl border border-slate-600/50 animate-fade-in-up"
             onClick={e => e.stopPropagation()}
-            tabIndex={0}
           >
             <button
-              className="absolute top-3 right-3 text-cyan-200 hover:text-blue-400 text-xl font-bold"
+              className="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold transition-colors"
               onClick={() => setShowModal(null)}
-              aria-label="Close certificate details"
-            >×</button>
-            <div className="mb-4">{visibleCerts[showModal].icon}</div>
-            <h3 className="text-2xl font-extrabold text-blue-200 mb-1">{visibleCerts[showModal].title}</h3>
-            <h4 className="text-lg font-semibold text-cyan-200 mb-2">{visibleCerts[showModal].subtitle}</h4>
-            <p className="text-cyan-100 font-medium mb-2">{visibleCerts[showModal].provider} <span className="ml-2 text-xs bg-cyan-800/60 px-2 py-0.5 rounded">{visibleCerts[showModal].year}</span></p>
-            <p className="text-gray-200 text-base leading-relaxed mb-3">{visibleCerts[showModal].description}</p>
-            <div className="flex gap-2 mb-4 flex-wrap">
+            >
+              ×
+            </button>
+            
+            <div className="mb-6 p-3 bg-slate-700/50 rounded-lg w-fit border border-slate-600/30">
+              {visibleCerts[showModal].icon}
+            </div>
+            
+            <h3 className="text-2xl font-bold text-white mb-2">
+              {visibleCerts[showModal].title}
+            </h3>
+            <h4 className="text-lg font-semibold text-blue-300 mb-3">
+              {visibleCerts[showModal].subtitle}
+            </h4>
+            <p className="text-slate-300 font-medium mb-4">
+              {visibleCerts[showModal].provider} 
+              <span className="ml-3 text-xs bg-slate-600/60 px-2 py-1 rounded border border-slate-500/30">
+                {visibleCerts[showModal].year}
+              </span>
+            </p>
+            <p className="text-slate-400 leading-relaxed mb-6">
+              {visibleCerts[showModal].description}
+            </p>
+            
+            <div className="flex gap-2 mb-6 flex-wrap">
               {visibleCerts[showModal].tags?.map(tag => (
-                <span key={tag} className="text-xs bg-cyan-800/70 text-cyan-200 px-2 py-0.5 rounded-full font-semibold">{tag}</span>
+                <span 
+                  key={tag} 
+                  className="text-xs bg-slate-600/60 text-slate-200 px-2 py-1 rounded-full font-semibold border border-slate-500/30"
+                >
+                  {tag}
+                </span>
               ))}
             </div>
+            
             {visibleCerts[showModal].link && (
               <a
                 href={visibleCerts[showModal].link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-2 px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-900 font-bold shadow hover:scale-105 hover:shadow-lg transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold shadow-lg hover:shadow-blue-500/30 hover:scale-105 transition-all duration-300"
               >
-                🔗 View Credential
+                <span>View Credential</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
               </a>
             )}
           </div>
         </div>
       )}
+
+      {/* Mobile Preview */}
       {isMobile && showMobilePreview.show && (
         <div
           id="mobile-cert-preview"
-          className="fixed inset-x-0 bottom-0 z-50 bg-gradient-to-t from-[#1e293b]/95 via-[#283557]/90 to-transparent px-4 py-6 rounded-t-3xl shadow-2xl animate-fade-in-up"
+          className="fixed inset-x-0 bottom-0 z-50 bg-gradient-to-t from-slate-800/95 via-slate-700/90 to-transparent backdrop-blur-md px-6 py-8 rounded-t-3xl shadow-2xl border-t border-slate-600/50"
         >
-          <div className="flex justify-between items-center mb-2">
-            <span />
+          <div className="flex justify-between items-center mb-4">
+            <div className="w-8 h-1 bg-slate-500 rounded-full mx-auto"></div>
             <button
-              className="text-cyan-200 hover:text-blue-400 text-2xl font-bold"
+              className="text-slate-400 hover:text-white text-2xl font-bold transition-colors"
               onClick={() => setShowMobilePreview({ idx: 0, show: false })}
-              aria-label="Close quick view"
-            >×</button>
+            >
+              ×
+            </button>
           </div>
-          <div className="mb-3">{visibleCerts[showMobilePreview.idx].icon}</div>
-          <h3 className="text-xl font-extrabold text-blue-200 mb-1">{visibleCerts[showMobilePreview.idx].title}</h3>
-          <h4 className="text-base font-semibold text-cyan-200 mb-2">{visibleCerts[showMobilePreview.idx].subtitle}</h4>
-          <p className="text-cyan-100 font-medium mb-2">{visibleCerts[showMobilePreview.idx].provider} <span className="ml-2 text-xs bg-cyan-800/60 px-2 py-0.5 rounded">{visibleCerts[showMobilePreview.idx].year}</span></p>
-          <p className="text-gray-200 text-sm leading-relaxed mb-2">{visibleCerts[showMobilePreview.idx].description}</p>
-          <div className="flex gap-2 mb-2 flex-wrap">
+          
+          <div className="mb-4 p-2 bg-slate-700/50 rounded-lg w-fit border border-slate-600/30">
+            {visibleCerts[showMobilePreview.idx].icon}
+          </div>
+          
+          <h3 className="text-xl font-bold text-white mb-2">
+            {visibleCerts[showMobilePreview.idx].title}
+          </h3>
+          <h4 className="text-base font-semibold text-blue-300 mb-2">
+            {visibleCerts[showMobilePreview.idx].subtitle}
+          </h4>
+          <p className="text-slate-300 font-medium mb-3">
+            {visibleCerts[showMobilePreview.idx].provider} 
+            <span className="ml-2 text-xs bg-slate-600/60 px-2 py-1 rounded border border-slate-500/30">
+              {visibleCerts[showMobilePreview.idx].year}
+            </span>
+          </p>
+          <p className="text-slate-400 text-sm leading-relaxed mb-4">
+            {visibleCerts[showMobilePreview.idx].description}
+          </p>
+          
+          <div className="flex gap-2 mb-4 flex-wrap">
             {visibleCerts[showMobilePreview.idx].tags?.map(tag => (
-              <span key={tag} className="text-xs bg-cyan-800/70 text-cyan-200 px-2 py-0.5 rounded-full font-semibold">{tag}</span>
+              <span 
+                key={tag} 
+                className="text-xs bg-slate-600/60 text-slate-200 px-2 py-1 rounded-full font-semibold border border-slate-500/30"
+              >
+                {tag}
+              </span>
             ))}
           </div>
+          
           {visibleCerts[showMobilePreview.idx].link && (
             <a
               href={visibleCerts[showMobilePreview.idx].link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-2 px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-900 font-bold shadow hover:scale-105 hover:shadow-lg transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
             >
-              🔗 View Credential
+              <span>View Credential</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
             </a>
           )}
         </div>
       )}
+
       <div className="relative z-10 text-center mt-20">
-        <p className="text-cyan-200 text-lg md:text-xl font-semibold animate-fade-in-up">
-          Want to know more? <a href="#contact" className="underline hover:text-blue-300 transition">Let’s connect and collaborate!</a>
+        <p className="text-slate-300 text-lg md:text-xl font-medium">
+          Interested in collaborating? <a href="#contact" className="text-blue-400 hover:text-blue-300 underline transition-colors font-semibold">Let's connect!</a>
         </p>
       </div>
     </section>
